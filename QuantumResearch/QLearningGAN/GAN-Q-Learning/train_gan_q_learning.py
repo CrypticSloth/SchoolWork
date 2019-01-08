@@ -203,7 +203,7 @@ def learn(env,
             #update the generator n_gen times
             for _ in range(n_gen):
                 obs_batch, act_batch, _, _, _ = (buffer.sample(batch_size))
-                batch_z = np.random.normal(0, 1, size=[batch_size] + z_shape)   
+                batch_z = np.random.normal(0, 1, size=[batch_size] + z_shape)
                 act_batch = np.expand_dims(act_batch, -1)
                 sess.run(gen_min_op, feed_dict={
                     gen.input_seed : batch_z,

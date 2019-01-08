@@ -4,7 +4,7 @@ import neural_network as nn
 
 class Generator(nn.Generator):
     """
-    Example OpenAI-Gym Generator architecture. 
+    Example OpenAI-Gym Generator architecture.
     """
     def __init__(self, sess):
         """
@@ -72,7 +72,7 @@ class Generator(nn.Generator):
 
         Returns
         -------
-            A list of tensors: the trainable variables in this graph 
+            A list of tensors: the trainable variables in this graph
         """
         return tf.trainable_variables('gen')
 
@@ -159,7 +159,7 @@ class Discriminator(nn.Discriminator):
 
         Returns
         -------
-            A list of tensors: the trainable variables in this graph 
+            A list of tensors: the trainable variables in this graph
         """
         return tf.trainable_variables('dis')
 

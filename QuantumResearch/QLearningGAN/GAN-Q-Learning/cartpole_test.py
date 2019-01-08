@@ -1,5 +1,5 @@
 import tensorflow as tf
-import train_gan_q_learning as train
+import train_gan_q_learning_Weis as train
 import cartpole_networks as networks
 import gym
 
@@ -10,11 +10,12 @@ def main():
     dis_copy = networks.Discriminator_copy
 
     env = gym.make('CartPole-v0')
+    # env = gym.make('FrozenLake-v0')
     train.learn(env,
                 sess,
                 1000,
-                10000, 
-                0.99, 
+                10000,
+                0.99,
                 dis,
                 dis_copy,
                 gen,
