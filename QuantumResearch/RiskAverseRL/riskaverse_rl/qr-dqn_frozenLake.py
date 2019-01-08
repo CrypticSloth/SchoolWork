@@ -20,8 +20,8 @@ from risk_strategies import behaviour_policy
 
 Variable = lambda *args, **kwargs: autograd.Variable(*args, **kwargs)
 
-env_id = "CartPole-v0"
-# env_id = "FrozenLake-v0"
+# env_id = "CartPole-v0"
+env_id = "FrozenLake-v0"
 # Observations: cart position, cart velocity, pole angle, pole velocity at tip
 env = gym.make(env_id)
 
@@ -141,8 +141,8 @@ behaviour_p = "mean" # Alternatives: mean, sharp ratio, sortino sharp ratio, wei
 noisy = False
 
 num_quant = 30
-current_model = QRDQN(env.observation_space.shape[0], env.action_space.n, num_quant)
-target_model  = QRDQN(env.observation_space.shape[0], env.action_space.n, num_quant)
+current_model = QRDQN(env.observation_space.n, env.action_space.n, num_quant)
+target_model  = QRDQN(env.observation_space.n, env.action_space.n, num_quant)
 update_target(current_model, target_model)
 
 optimizer = optim.Adam(current_model.parameters())
