@@ -1,3 +1,7 @@
+'''
+Line 154: Buffer from Wei Hus email
+'''
+
 import numpy as np
 import tensorflow as tf
 import utils
@@ -134,8 +138,8 @@ def learn(env,
 			if done:
 				rList.append(rew_agg)
 				#print('kk', kk)
-				#if kk%10 == 0:			
-				print('avg rewards, kk', kk, np.mean(rList[-100:]))	
+				#if kk%10 == 0:
+				print('avg rewards, kk', kk, np.mean(rList[-100:]))
 				if writer is not None:
 					rew_writer = sess.run(rew_summ, feed_dict={rew_ph : rew_agg})
 					writer.add_summary(rew_writer, rew_tracker)
@@ -143,8 +147,8 @@ def learn(env,
 					rew_agg = 0
 				last_obs = env.reset()
 			else:
-				last_obs = next_obs			
-	
+				last_obs = next_obs
+
 			if not buffer.can_sample(batch_size):
 				continue
 
@@ -208,7 +212,7 @@ def learn(env,
 			#update the generator n_gen times
 			for _ in range(n_gen):
 				obs_batch, act_batch, _, _, _ = (buffer.sample(batch_size))
-				batch_z = np.random.normal(0, 1, size=[batch_size] + z_shape)   
+				batch_z = np.random.normal(0, 1, size=[batch_size] + z_shape)
 				act_batch = np.expand_dims(act_batch, -1)
 				sess.run(gen_min_op, feed_dict={
 					gen.input_seed : batch_z,
@@ -226,4 +230,3 @@ def learn(env,
 					})
 					writer.add_summary(gen_writer, gen_tracker)
 					gen_tracker += 1
-			

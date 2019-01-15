@@ -1,3 +1,16 @@
+'''
+When you modify the code to make it work for the Frozen Lake, notice the difference:
+
+
+
+  CartPole: action #=2, FrozenLake action #=4
+
+  CartPole: state #=4, FrozenLake  state #=16
+
+Is input_state_ the state?
+Where is the action? That should be output right?
+'''
+
 import numpy as np
 import tensorflow as tf
 import neural_network as nn
@@ -14,7 +27,7 @@ class Generator(nn.Generator):
         """
         self.sess_ = sess
         with tf.variable_scope('gen'):
-            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 4], name='input_state')
+            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 2], name='input_state')
             self.input_seed_ = tf.placeholder(tf.float32, shape=[None, 1], name='input_seed')
             self.concat = tf.concat([self.input_state_, self.input_seed_], 1, name='concat')
             self.hidden = tf.layers.dense(self.concat, 8, activation=tf.nn.relu, name='hidden')
@@ -25,7 +38,6 @@ class Generator(nn.Generator):
     def input_state(self):
         """
         The input state of shape [None, 4]
-
         Returns
         -------
             A placeholder tensor: the input state's placeholder tensor
@@ -36,7 +48,6 @@ class Generator(nn.Generator):
     def output(self):
         """
         The outputted action distribution of shape [None, 2]
-
         Returns
         -------
             A tensor: the output tensor
@@ -47,7 +58,6 @@ class Generator(nn.Generator):
     def sess(self):
         """
         The session used to create the graph
-
         Returns
         -------
             A session: the graph's session
@@ -58,7 +68,6 @@ class Generator(nn.Generator):
     def input_seed(self):
         """
         The input random seed
-
         Returns
         -------
             A placeholder: the input seed's placeholder tensor
@@ -69,7 +78,6 @@ class Generator(nn.Generator):
     def trainable_variables(self):
         """
         A list of the trainable variables in our generator
-
         Returns
         -------
             A list of tensors: the trainable variables in this graph
@@ -88,7 +96,7 @@ class Discriminator(nn.Discriminator):
         """
         self.sess_ = sess
         with tf.variable_scope('dis'):
-            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 4], name='input_state')
+            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 2], name='input_state')
             self.input_reward_ = tf.placeholder(tf.float32, shape=[None], name='input_reward')
             self.input_action_ = tf.placeholder(tf.float32, shape=[None, 1], name='input_action')
             self.input_reward_exp = tf.expand_dims(self.input_reward_, axis=-1, name='input_reward_expanded')
@@ -101,7 +109,6 @@ class Discriminator(nn.Discriminator):
     def input_state(self):
         """
         The input state of shape [None, 4]
-
         Returns
         -------
             A placeholder tensor: the input state's placeholder tensor
@@ -112,7 +119,6 @@ class Discriminator(nn.Discriminator):
     def input_action(self):
         """
         The input action of shape [None, 1]
-
         Returns
         -------
             A placeholder tensor: the input action's placeholder tensor
@@ -123,7 +129,6 @@ class Discriminator(nn.Discriminator):
     def output(self):
         """
         The probability output of shape [None, 1]
-
         Returns
         -------
             A tensor: the output's tensor
@@ -134,7 +139,6 @@ class Discriminator(nn.Discriminator):
     def sess(self):
         """
         The session used to create a graph
-
         Returns
         -------
             A session: the graph's session
@@ -145,7 +149,6 @@ class Discriminator(nn.Discriminator):
     def input_reward(self):
         """
         The input reward
-
         Returns
         -------
             A placeholder tensor: the input reward's tensor
@@ -156,7 +159,6 @@ class Discriminator(nn.Discriminator):
     def trainable_variables(self):
         """
         A list of the trainable variables in our generator
-
         Returns
         -------
             A list of tensors: the trainable variables in this graph
@@ -170,7 +172,6 @@ class Discriminator_copy(nn.Discriminator_copy):
     def __init__(self, dis, new_rew_input):
         """
         Initializes a discriminator_copy object
-
         Args
         ----
             dis (Discriminator) : The discriminator to copy
@@ -180,7 +181,7 @@ class Discriminator_copy(nn.Discriminator_copy):
 
         #reuse the variables
         with tf.variable_scope('dis', reuse=tf.AUTO_REUSE):
-            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 4], name='input_state')
+            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 2], name='input_state')
             self.input_reward_ = new_rew_input
             self.input_action_ = tf.placeholder(tf.float32, shape=[None, 1], name='input_action')
             self.input_reward_exp = tf.expand_dims(self.input_reward_, axis=-1, name='input_reward_expanded')
@@ -197,7 +198,6 @@ class Discriminator_copy(nn.Discriminator_copy):
     def input_state(self):
         """
         The input state of shape [None, 4]
-
         Returns
         -------
             A placeholder tensor: the input state's placeholder tensor
@@ -208,7 +208,6 @@ class Discriminator_copy(nn.Discriminator_copy):
     def input_action(self):
         """
         The input action of shape [None, 1]
-
         Returns
         -------
             A placeholder tensor: the input action's placeholder tensor
@@ -219,7 +218,6 @@ class Discriminator_copy(nn.Discriminator_copy):
     def output(self):
         """
         The probability output of shape [None, 1]
-
         Returns
         -------
             A tensor: the output's tensor
@@ -230,7 +228,6 @@ class Discriminator_copy(nn.Discriminator_copy):
     def sess(self):
         """
         The session used to create a graph
-
         Returns
         -------
             A session: the graph's session
@@ -241,7 +238,6 @@ class Discriminator_copy(nn.Discriminator_copy):
     def input_reward(self):
         """
         The input reward
-
         Returns
         -------
             A placeholder tensor: the input reward's tensor
@@ -252,7 +248,6 @@ class Discriminator_copy(nn.Discriminator_copy):
     def trainable_variables(self):
         """
         A list of the trainable variables in our generator
-
         Returns
         -------
             A list of tensors: the trainable variables in this graph
