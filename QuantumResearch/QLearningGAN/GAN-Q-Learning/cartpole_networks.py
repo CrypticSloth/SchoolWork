@@ -9,6 +9,12 @@ When you modify the code to make it work for the Frozen Lake, notice the differe
 
 Is input_state_ the state?
 Where is the action? That should be output right?
+
+To activate tensorboard
+
+python -m tensorboard.main --logdir=logs/
+
+
 '''
 
 import numpy as np
