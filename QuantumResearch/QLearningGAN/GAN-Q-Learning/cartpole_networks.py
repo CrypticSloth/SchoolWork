@@ -9,6 +9,10 @@ When you modify the code to make it work for the Frozen Lake, notice the differe
 
 Is input_state_ the state?
 Where is the action? That should be output right?
+
+To Run tensorboard
+
+python -m tensorboard.main --logdir=/path/to/logs
 '''
 
 import numpy as np
@@ -27,7 +31,7 @@ class Generator(nn.Generator):
         """
         self.sess_ = sess
         with tf.variable_scope('gen'):
-            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 2], name='input_state')
+            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 4], name='input_state')
             self.input_seed_ = tf.placeholder(tf.float32, shape=[None, 1], name='input_seed')
             self.concat = tf.concat([self.input_state_, self.input_seed_], 1, name='concat')
             self.hidden = tf.layers.dense(self.concat, 8, activation=tf.nn.relu, name='hidden')
@@ -96,7 +100,7 @@ class Discriminator(nn.Discriminator):
         """
         self.sess_ = sess
         with tf.variable_scope('dis'):
-            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 2], name='input_state')
+            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 4], name='input_state')
             self.input_reward_ = tf.placeholder(tf.float32, shape=[None], name='input_reward')
             self.input_action_ = tf.placeholder(tf.float32, shape=[None, 1], name='input_action')
             self.input_reward_exp = tf.expand_dims(self.input_reward_, axis=-1, name='input_reward_expanded')
@@ -181,7 +185,7 @@ class Discriminator_copy(nn.Discriminator_copy):
 
         #reuse the variables
         with tf.variable_scope('dis', reuse=tf.AUTO_REUSE):
-            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 2], name='input_state')
+            self.input_state_ = tf.placeholder(tf.float32, shape=[None, 4], name='input_state')
             self.input_reward_ = new_rew_input
             self.input_action_ = tf.placeholder(tf.float32, shape=[None, 1], name='input_action')
             self.input_reward_exp = tf.expand_dims(self.input_reward_, axis=-1, name='input_reward_expanded')
