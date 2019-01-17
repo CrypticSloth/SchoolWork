@@ -13,7 +13,7 @@ def main():
     env = gym.make('FrozenLake-v0')
     train.learn(env,
                 sess,
-                1000,
+                10,
                 10000,
                 0.99,
                 dis,
