@@ -9,8 +9,8 @@ def main():
     dis = networks.Discriminator(sess)
     dis_copy = networks.Discriminator_copy
 
-    env = gym.make('CartPole-v0')
-    # env = gym.make('FrozenLake-v0')
+    # env = gym.make('CartPole-v0')
+    env = gym.make('FrozenLake-v0')
     train.learn(env,
                 sess,
                 1000,

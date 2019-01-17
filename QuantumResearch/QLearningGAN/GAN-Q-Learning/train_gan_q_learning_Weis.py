@@ -128,7 +128,8 @@ def learn(env,
 				gen.input_state : np.array([last_obs]),
 				gen.input_seed : np.array([gen_seed])
 			})[0]
-			optimal_action = np.argmax(action_results)
+			optimal_action = np.argmax(
+            )
 
 			next_obs, reward, done, _ = env.step(optimal_action)
 			rew_agg += reward
