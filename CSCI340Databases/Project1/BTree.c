@@ -6,6 +6,9 @@
 /* Exploring B-Trees.  */
 /* Code from: http://www.cs.yale.edu/homes/aspnes/pinewiki/BTrees.html */
 /* Slight modifications by Ryan Yates */
+// Modify MAX_KEYS for our homework
+// Lower values should take longer (because search takes longer)
+
 #define MAX_KEYS (1024)
 
 /* type for keys */
