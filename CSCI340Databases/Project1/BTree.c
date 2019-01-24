@@ -283,16 +283,17 @@ int main(int argc, char **argv)
     /* Put your test for height here.                      */
     /*******************************************************/
 
-    gc = 0;
-    assert(btsearch(b,5) == 0);
+    gc = 0; // reset the counter
+    assert(btsearch(b,5) == 0); // test height
 
     printf("MAX_KEYS = %d \n",MAX_KEYS);
     printf("Node Structure Size (bytes): %ld \n",sizeof(node));
     printf("Number of nodes visited: %d \n",gc);
-
+    printf("Total Search Time (Memory): %f ms \n", ((sizeof(node) / 1000000000) / 0.025) + (gc * .001));
+    printf("Total Search Time (SSD): %f ms \n",((sizeof(node) / 1000000000) / 0.0003418) + (gc * .1));
+    printf("Total Search Time (HDD): %f ms \n",((sizeof(node) / 1000000000) / 0.0001465) + (gc * 10));
+    printf("Total Search Time (Network): %f ms \n", ((sizeof(node) / 1000000000) / 0.0011) + (gc * 20));
     destroy(b);
-
-
 
     return 0;
 
