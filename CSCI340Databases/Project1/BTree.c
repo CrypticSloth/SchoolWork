@@ -9,7 +9,7 @@
 // Modify MAX_KEYS for our homework
 // Lower values should take longer (because search takes longer)
 
-#define MAX_KEYS (1024)
+#define MAX_KEYS (32)
 
 /* type for keys */
 typedef int KEY;
@@ -100,6 +100,32 @@ int search(node* b, KEY key)
 /***********************************/
 /* PUT YOUR VERSION OF search HERE */
 /***********************************/
+int gc = 0;
+
+int btsearch(node* b, KEY key)
+{
+    int pos;
+
+    /* have to check for empty tree */
+    if(b->numKeys == 0) {
+        return 0;
+    }
+
+    /* look for smallest position that key fits below */
+    pos = searchKey(b->numKeys, b->keys, key);
+
+    if(pos < b->numKeys && b->keys[pos] == key) {
+        return 1;
+    } else {
+        {
+            extern int gc;
+            gc = gc + 1;
+        }
+        gc = gc + 1;
+        return(!b->isLeaf && btsearch(b->kids[pos], key));
+    }
+}
+
 
 /* insert a new key into a tree */
 /* returns new right sibling if the node splits */
@@ -222,32 +248,32 @@ int main(int argc, char **argv)
     b = create();
     assert(b);
 
-    assert(search(b, 12) == 0);
+    assert(btsearch(b, 12) == 0);
     insert(b, 12);
-    assert(search(b, 12) == 1);
+    assert(btsearch(b, 12) == 1);
     destroy(b);
 
     b = create();
     for(i = 0; i < 100; i++) {
-        assert(search(b, i) == 0);
+        assert(btsearch(b, i) == 0);
         insert(b, i);
-        assert(search(b, i) == 1);
+        assert(btsearch(b, i) == 1);
     }
 
     for(i = 0; i < 100; i++) {
-        assert(search(b, i) == 1);
+        assert(btsearch(b, i) == 1);
         insert(b, i);
-        assert(search(b, i) == 1);
+        assert(btsearch(b, i) == 1);
     }
 
     destroy(b);
 
     b = create();
     for(i = 0; i < 10000000; i += 2) {
-        assert(search(b, i) == 0);
+        assert(btsearch(b, i) == 0);
         insert(b, i);
-        assert(search(b, i+1) == 0);
-        assert(search(b, i) == 1);
+        assert(btsearch(b, i+1) == 0);
+        assert(btsearch(b, i) == 1);
     }
 
     /*******************************************************/
@@ -255,7 +281,13 @@ int main(int argc, char **argv)
     /* Put your test for height here.                      */
     /*******************************************************/
 
+    printf("Number of searches: %d \n",gc);
+    printf("Node Structure Size: %ld \n",sizeof(*b));
+
     destroy(b);
 
+    printf("MAX_KEYS = %d",MAX_KEYS);
+
     return 0;
+
 }
