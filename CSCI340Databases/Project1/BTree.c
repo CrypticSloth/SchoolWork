@@ -9,7 +9,7 @@
 // Modify MAX_KEYS for our homework
 // Lower values should take longer (because search takes longer)
 
-#define MAX_KEYS (32)
+#define MAX_KEYS (1024)
 
 /* type for keys */
 typedef int KEY;
@@ -23,11 +23,15 @@ struct node {
     node* kids[MAX_KEYS+1];  /* kids[i] holds nodes < keys[i] */
 };
 
+int gc = 0;
 /* create a new empty tree */
 node* create()
 {
     node* b;
-
+    {
+        extern int gc;
+        gc = 0;
+    }
     b = malloc(sizeof(node));
     assert(b);
 
@@ -100,7 +104,6 @@ int search(node* b, KEY key)
 /***********************************/
 /* PUT YOUR VERSION OF search HERE */
 /***********************************/
-int gc = 0;
 
 int btsearch(node* b, KEY key)
 {
@@ -118,7 +121,7 @@ int btsearch(node* b, KEY key)
         return 1;
     } else {
         {
-            extern int gc;
+            extern int gc; // Update the global variable gc to count searches
             gc = gc + 1;
         }
         gc = gc + 1;
@@ -247,7 +250,6 @@ int main(int argc, char **argv)
 
     b = create();
     assert(b);
-
     assert(btsearch(b, 12) == 0);
     insert(b, 12);
     assert(btsearch(b, 12) == 1);
@@ -281,12 +283,16 @@ int main(int argc, char **argv)
     /* Put your test for height here.                      */
     /*******************************************************/
 
-    printf("Number of searches: %d \n",gc);
-    printf("Node Structure Size: %ld \n",sizeof(*b));
+    gc = 0;
+    assert(btsearch(b,5) == 0);
+
+    printf("MAX_KEYS = %d \n",MAX_KEYS);
+    printf("Node Structure Size (bytes): %ld \n",sizeof(node));
+    printf("Number of nodes visited: %d \n",gc);
 
     destroy(b);
 
-    printf("MAX_KEYS = %d",MAX_KEYS);
+
 
     return 0;
 
