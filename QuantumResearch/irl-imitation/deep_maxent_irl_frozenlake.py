@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 from collections import namedtuple
+import gym
 
 
 import img_utils
@@ -13,6 +14,8 @@ from utils import *
 from lp_irl import *
 
 Step = namedtuple('Step','cur_state action next_state reward done')
+
+env = gym.make("FrozenLake-v0")
 
 PARSER = argparse.ArgumentParser(description=None)
 PARSER.add_argument('-hei', '--height', default=5, type=int, help='height of the gridworld')
@@ -42,7 +45,7 @@ LEARNING_RATE = ARGS.learning_rate
 N_ITERS = ARGS.n_iters
 
 
-def generate_demonstrations(gw, policy, n_trajs=100, len_traj=20, rand_start=False, start_pos=[0,0]):
+def generate_demonstrations(env, policy, n_trajs=100, len_traj=20, rand_start=False, start_pos=[0,0]):
   """gatheres expert demonstrations
 
   inputs:
@@ -56,20 +59,21 @@ def generate_demonstrations(gw, policy, n_trajs=100, len_traj=20, rand_start=Fal
   """
 
   trajs = []
-  for i in range(n_trajs):
-    if rand_start:
-      # override start_pos
-      start_pos = [np.random.randint(0, gw.height), np.random.randint(0, gw.width)]
+  # for i in range(n_trajs):
+  #   if rand_start:
+  #     # override start_pos
+  #     start_pos = [np.random.randint(0, gw.height), np.random.randint(0, gw.width)]
 
     episode = []
-    gw.reset(start_pos)
-    cur_state = start_pos
-    cur_state, action, next_state, reward, is_done = gw.step(int(policy[gw.pos2idx(cur_state)]))
-    episode.append(Step(cur_state=gw.pos2idx(cur_state), action=action, next_state=gw.pos2idx(next_state), reward=reward, done=is_done))
+    env.reset()
+    # cur_state = start_pos
+    # cur_state, action, next_state, reward, is_done = gw.step(int(policy[gw.pos2idx(cur_state)]))
+    next_state, reward, done, _ = env.step(action)
+    episode.append(Step(cur_state=cur_state, action=action, next_state=next_state, reward=reward, done=is_done))
     # while not is_done:
     for _ in range(len_traj):
         cur_state, action, next_state, reward, is_done = gw.step(int(policy[gw.pos2idx(cur_state)]))
-        episode.append(Step(cur_state=gw.pos2idx(cur_state), action=action, next_state=gw.pos2idx(next_state), reward=reward, done=is_done))
+        episode.append(Step(cur_state=cur_state, action=action, next_state=next_state, reward=reward, done=is_done))
         if is_done:
             break
     trajs.append(episode)
@@ -85,18 +89,18 @@ def main():
   rmap_gt[0, W-1] = R_MAX
   rmap_gt[H-1, 0] = R_MAX
 
-  gw = gridworld.GridWorld(rmap_gt, {}, 1 - ACT_RAND)
-
+  # gw = gridworld.GridWorld(rmap_gt, {}, 1 - ACT_RAND)
+  env = gym.make("FrozenLake-v0")
 
   rewards_gt = np.reshape(rmap_gt, H*W, order='F')
-  P_a = gw.get_transition_mat()
+  P_a = gw.get_transition_mat() # What is this???
 
   values_gt, policy_gt = value_iteration.value_iteration(P_a, rewards_gt, GAMMA, error=0.01, deterministic=True)
 
   # use identity matrix as feature
   feat_map = np.eye(N_STATES)
 
-  trajs = generate_demonstrations(gw, policy_gt, n_trajs=N_TRAJS, len_traj=L_TRAJ, rand_start=RAND_START)
+  trajs = generate_demonstrations(env, policy_gt, n_trajs=N_TRAJS, len_traj=L_TRAJ, rand_start=RAND_START)
 
   print('Deep Max Ent IRL training ..')
   rewards = deep_maxent_irl(feat_map, P_a, GAMMA, trajs, LEARNING_RATE, N_ITERS)
