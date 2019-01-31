@@ -82,20 +82,20 @@ def generate_demonstrations(env, policy, n_trajs=100, len_traj=20, rand_start=Fa
 
 def main():
   N_STATES = H * W
-  N_ACTIONS = 5
+  N_ACTIONS = 4
 
   rmap_gt = np.zeros([H, W])
-  rmap_gt[H-1, W-1] = R_MAX
-  rmap_gt[0, W-1] = R_MAX
-  rmap_gt[H-1, 0] = R_MAX
+  rmap_gt[H-1, W-1] = 1
+  # rmap_gt[0, W-1] = R_MAX
+  # rmap_gt[H-1, 0] = R_MAX
 
   # gw = gridworld.GridWorld(rmap_gt, {}, 1 - ACT_RAND)
   env = gym.make("FrozenLake-v0")
 
   rewards_gt = np.reshape(rmap_gt, H*W, order='F')
-  P_a = gw.get_transition_mat() # What is this???
+  P_a = gw.get_transition_mat() # What is this??? Use env.env.P
 
-  values_gt, policy_gt = value_iteration.value_iteration(P_a, rewards_gt, GAMMA, error=0.01, deterministic=True)
+  values_gt, policy_gt = value_iteration.value_iteration(P_a, rewards_gt, GAMMA, error=0.01, deterministic=True) # Change this to use our code from HW7
 
   # use identity matrix as feature
   feat_map = np.eye(N_STATES)
@@ -105,7 +105,7 @@ def main():
   print('Deep Max Ent IRL training ..')
   rewards = deep_maxent_irl(feat_map, P_a, GAMMA, trajs, LEARNING_RATE, N_ITERS)
 
-  values, _ = value_iteration.value_iteration(P_a, rewards, GAMMA, error=0.01, deterministic=True)
+  values, _ = value_iteration.value_iteration(P_a, rewards, GAMMA, error=0.01, deterministic=True) #Same thing as line 98 but just need the values
   # plots
   plt.figure(figsize=(20,4))
   plt.subplot(1, 4, 1)

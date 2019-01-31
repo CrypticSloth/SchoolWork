@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 from collections import namedtuple
-
+import gym
 
 import img_utils
 from mdp import gridworld
@@ -13,6 +13,7 @@ from utils import *
 from lp_irl import *
 
 Step = namedtuple('Step','cur_state action next_state reward done')
+
 
 PARSER = argparse.ArgumentParser(description=None)
 PARSER.add_argument('-hei', '--height', default=5, type=int, help='height of the gridworld')
