@@ -7,7 +7,7 @@ import tensorflow as tf
 # You can test it with y = 0.5, 0.7, 0.9
 # y = 0.5
 
-x = np.array([[0.1], [0.4], [0.6], [0.8]])
+x = [[0.1], [0.4], [0.6], [0.8]]
 y = [[0.2], [0.5], [0.7], [0.9]]
 
 # import numpy as np
