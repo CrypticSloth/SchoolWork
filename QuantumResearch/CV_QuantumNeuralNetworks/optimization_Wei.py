@@ -5,16 +5,29 @@ import tensorflow as tf
 
 # I like to show you that we can tune the alpha value to approximate the value of y
 # You can test it with y = 0.5, 0.7, 0.9
-y = 0.9
+# y = 0.5
+
+x = np.array([[0.1], [0.4], [0.6], [0.8]])
+y = [[0.2], [0.5], [0.7], [0.9]]
+
+# import numpy as np
+# x = np.array([[0.2, 0.4], [0.6, 0.8], [0.4, 0.2], [0.8, 0.6]])
+# x[:,0]
+# y = [[0.1,0.2],[0.4,0.5],[0.6,0.7],[0.8,0.9]]
+
+# y = beta * x + alpha
 
 eng, q = sf.Engine(1)
 
 alpha = tf.Variable(0.1)
+beta = tf.Variable(0.1)
 with eng:
-    Dgate(alpha) | q[0]
+    Dgate(np.array(x))  | q[0]
+    Dgate(alpha)   | q[0]
+    Sgate(beta)  | q[0]
 state = eng.run('tf', cutoff_dim=7, eval=False)
 
-# loss is probability for the Fock state n=1
+# loss is probability for the Fock state n=0
 prob = state.fock_prob([0])
 loss = tf.square(prob - y)
 
