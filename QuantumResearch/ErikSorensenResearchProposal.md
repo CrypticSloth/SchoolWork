@@ -26,7 +26,7 @@ Reinforcement learning may be applied to many fields. As an example, I will use 
 
 With reinforcement learning, the robot can self-teach itself by exploring the room. The only feedback the robot gets is *observations* about its surroundings via sensors, and a *reward* signal that indicates how well the robot is doing at its job. Every action the robot takes it will receive either a positive reward signal for good actions or a negative reward signal for bad actions. The robots goal then is to maximize this positive reward signal so that it knows it is doing a good job. The part of the robot that decides the next *action* it should take, whether it be going left or right or going back to charge, we will call the *agent*.
 
-How then can the robot learn to efficiently do this task with these tools it has at its disposal? The problem stated here is called the reinforcement problem [1], which gives the instructions for most of reinforcement learning algorithms. It is stated here:
+How then can the robot learn to efficiently do this task with these tools it has at its disposal? This problem is called the reinforcement problem [1], which gives the instructions for most reinforcement learning algorithms. It is stated here:
 
 > For an agent in a certain state at a certain time, what action should be taken that will maximize the overall reward, now and in the future?
 
