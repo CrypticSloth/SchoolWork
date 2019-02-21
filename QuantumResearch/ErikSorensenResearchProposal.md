@@ -20,7 +20,7 @@ Quantum computing and machine learning are two exciting fields. Quantum computin
 
 ## Reinforcement learning
 
-<!-- the example used here is probably not the best one I could use. Use example I like to use of a Roomba-->
+<!-- Example to understand it -->
 
 Reinforcement learning may be applied to many fields. As an example, I will use a vacuuming robot to show a specific use case of how reinforcement learning can be applied in the world. Lets imagine if this robot used reinforcement learning techniques. The robots main goal is to vacuum an *environment*, while avoiding furniture and other obstacles.
 
@@ -32,9 +32,7 @@ How then can the robot learn to efficiently do this task with these tools it has
 
 To summarize, the goal of reinforcement learning is to find a *policy* which maximizes the *reward*. A *policy* (pi) is a probability distribution that describes the probability the agent will take a certain action given it is in a certain state. The *optimal policy* is a policy that on average receives the greatest total reward. This is useful, especially in terms of the vacuuming robot who does not know anything about the environment it has been placed in. By defining the rewards the robot will search toward, it will learn itself how to best maximize this reward in the environment. Since we defined the robots reward as avoiding furniture in the environment, it will learn the best paths it can take to avoid these obstacles. All methods of reinforcement learning have this same goal, which is to find this optimal policy to maximize reward.  
 
-
-1. Example to understand it
-2. Value Function and Action-Value Function
+### Value Function and Action-Value Function
 
 <!-- ## Deep Reinforcement learning
 
