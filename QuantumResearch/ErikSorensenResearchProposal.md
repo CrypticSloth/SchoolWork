@@ -64,7 +64,7 @@ To do this, we can use *function approximation*. Function approximation methods 
 
 Once we frame the problem as a function approximation problem, we can use *neural networks* to learn the approximation of these functions. Neural networks are a computer learning algorithm that is modeled after a simplified version of biological neurons that are grouped into *layers*, where each layer is the result of previous layers multiplied by a *weight*. Neural networks must be trained by a technique called *supervised learning*, which is a machine learning task of learning a function that maps an input to an output based on example input-output pairs collected from an environment. Usually, supervised learning is done for classification problems, but neural networks may be applied to other problems by carefully selecting an *activation function*. An activation function is a function that describes the output of a neuron. Usually, activation functions compresses the outputs of neurons into a sigmoidal shape within a certain range, similarly to how biological neurons are activated.
 
-### Q-Networks
+### Q-Networks <!-- unclear on what these functions do really. Need better supporting words -->
 
 When Neural Networks are applied to Q-learning they are called Q-Networks [6]. We can rewrite the update formula for Q-learning written previously to frame it like a supervised learning problem for Q-Networks. If we let $y_t = r_t + \gamma max_a Q(s_{t+1},a)$, then
 
@@ -85,8 +85,6 @@ $$ \theta \leftarrow \theta + \alpha [ r + \gamma \max_a Q(s_t,a;\theta) - Q(s_t
 Having a reinforcement learning algorithm expressed in this way has many benefits. Lets think back to our vacuuming robot example. Say the robot is tasked with vacuuming the living room. The living room has specific characteristics that define it, say a dining room table and several chairs. The robot can now identify this room based on its characteristics and can now effectively identify and vacuum the room. Not only that, but the robot must recognize the dining room, and then remember this several states later.
 
 ### Stochastic Policy Gradient Theorem and Actor Critic Algorithms
-
-
 
 Modern computers can handle the computation of *deep neural networks*, or neural networks with many layers, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the continuous nature of neural networks and Q-Networks plays well with *continuous variable quantum computing*.
 
