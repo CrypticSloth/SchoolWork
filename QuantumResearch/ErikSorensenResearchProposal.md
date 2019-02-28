@@ -34,7 +34,7 @@ To summarize, the goal of reinforcement learning is to find a *policy* which max
 
 ### Value Function and Action-Value Function
 
-One method for discovering the optimal policy is to estimate the value of reward the agent receives in each state. Once this value is known, the best action an agent can take is the one that will accumulate the highest value across all future states. This method is called value iteration which returns a prediction of the expected accumulative, discounted, future reward, measuring how good each state is [2]. The expected total reward is called the return. The value function is described by
+One method for discovering the optimal policy is to estimate the value of reward the agent receives in each state. Once this value is known, the best action an agent can take is the one that will accumulate the highest value across all future states. This method is called value iteration which returns a prediction of the expected accumulative, discounted, future reward, measuring how good each state is [2]. The expected total reward is called the return. The value function is described by,
 
 $$V(s) = E\{R_t | s_t = s\}$$
 
@@ -44,11 +44,11 @@ $$Q(s,a) = E \{ r_{t+1} + \gamma V(s_{t+1}) | s_t = s, a_t = a \}$$
 
 where $r_t+1$ is the reward from moving into state $s_t+1$ from $s_t$ by taking action $a$ [3]. The action-value function has many benefits for learning, one of which is that it integrates well with *online learning*. Online learning algorithms are executed on data acquired in sequence [2]. The agent will use the current estimate of the optimal policy while exploring the environment in search of a better estimate of the optimal policy.
 
-Q-learning is a famous reinforcement learning algorithm that uses the action-value function to converge on the optimal policy iteratively, meaning that after each step it obtains a better estimate of the action-value and will eventually converge on the true optimal policy values for each step [3]. The formula for Q-learning is given by
+Q-learning is a famous reinforcement learning algorithm that uses the action-value function to converge on the optimal policy iteratively, meaning that after each step it obtains a better estimate of the action-value and will eventually converge on the true optimal policy values for each step [3]. The formula for Q-learning is given by,
 
 $$ Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha [ r_t + \gamma \max_a Q(s_{t+1},a) - Q(s_t,a_t) ] $$
 
-[4], where $Q(s_t,a_t)$ is the *action value*, $s_{t+1}$ is the state moved to out of $s_t$ by taking action $a_t$, $r_t$ is the reward from this trasition, $\alpha$ is the learning rate, and $\gamma$ is the discount rate which describes the discount rate of future rewards.
+[4], where $Q(s_t,a_t)$ is the *action value*, $s_{t+1}$ is the state moved to out of $s_t$ by taking action $a_t$, $r_t$ is the reward from this transition, $\alpha$ is the learning rate, and $\gamma$ is the discount rate which describes the discount rate of future rewards.
 
 Using the action-value function has two main advantages over the value function for learning. Firstly, it is easier to learn the action-value function to determine the optimal policy. Second, it is a simple task to evaluate policies with the action-value function because the next action of the agent is always determined by the best action that maximizes the action-value function (i.e. $a = argmax_a'Q(s,a')$).
 
@@ -60,7 +60,7 @@ Using the action-value function has two main advantages over the value function 
 
 Often, the action-value function $Q(s,a)$ is represented as a table, where each state-action pair $s,a$ maps to a particular reward value in the table. Generally, this table can get quite large with big environment spaces, sometimes they can be nearly *continuous* in size. In these scenarios, Q-learning becomes impractical because the table becomes much too large to converge on the optimal policy in a reasonable amount of time. Instead of this approach, we can try to approximate a function $f(s,a)$ of $Q(s,a)$ so that instead of directly learning each value in the table, we can learn the *parameters* of this function instead.
 
-To do this, we can use *function approximation*. Function approximation methods expect to receive examples of the desired input-output behavior of the function they are trying to approximate. We use these methods for value prediction simply by passing to them the $s,a$ of each update as a training example. We then interpret the approximate function they produce as an estimated value function [5].
+To do this, we can use *function approximation*. Function approximation methods expect to receive examples of the desired input-output behavior of the function they are trying to approximate. We use these methods for value prediction simply by passing to them the $s,a$ of each update as a training example. We then interpret the approximate function they produce as an estimated value function [5]. Therefore, instead of saving the values in the Q-table to determine the best next action, we are taking better actions at each time step in accordance to the learned function approximator.
 
 Once we frame the problem as a function approximation problem, we can use *neural networks* to learn the approximation of these functions. Neural networks are a computer learning algorithm that is modeled after a simplified version of biological neurons that are grouped into *layers*, where each layer is the result of previous layers multiplied by a *weight*. Neural networks must be trained by a technique called *supervised learning*, which is a machine learning task of learning a function that maps an input to an output based on example input-output pairs collected from an environment. Usually, supervised learning is done for classification problems, but neural networks may be applied to other problems by carefully selecting an *activation function*. An activation function is a function that describes the output of a neuron. Usually, activation functions compresses the outputs of neurons into a sigmoidal shape within a certain range, similarly to how biological neurons are activated.
 
@@ -74,11 +74,15 @@ Once we frame the problem as a function approximation problem, we can use *neura
 
 When Neural Networks are applied to Q-learning they are called Q-Networks [6]. Recall the previous formula for Q-learning written previously. With neural networks, we want to update the weights of the neural network to reduce the error, more specifically the *Temporal Difference Error* (TD). The TD error is calculated as follows,
 
-$$ TD = (R + \gamma max_a Q(s_{t+1},a_t,\theta)) - Q(s_t,a_t,\theta).$$
+$$ TD = (r + \gamma \max_a Q(s_{t+1},a,\theta)) - Q(s_t,a_t,\theta).$$
 
-As seen above, the TD error is the difference between the maximum possible value for the next state and the current prediction of the Q-value. Now that we can judge how well we are predicting the value of the next steps, we need a formula for improving the weights of our neural network so that it can continuously improve its predictions over each time step $t$. To do this, we can use *gradient descent*
+As seen above, the TD error is the difference between the maximum possible value for the next state and the current prediction of the Q-value. Now that we can judge how well we are predicting the value of the next steps, we need a formula for improving the weights of our neural network so that it can continuously improve its predictions over each time step $t$. To do this, we can use *gradient descent*, which is used to update the weights ($\theta$) of our neural network so as to minimize the TD error. Adding gradient descent to our formula we get,
 
- 
+$$ \theta \leftarrow \theta + \alpha [ r + \gamma \max_a Q(s_{t+1},a;\theta) - Q(s_t,a_t;\theta)] \nabla_\theta Q(s_t,a_t;\theta).$$
+
+Q-Networks work very well on large environments, especially when there are many layers involved. Q-Networks with many layers of neurons can train much faster and are called *Deep Q-Networks*. However, Q-Networks have trouble when we have a continuous action space. Q-Networks have to compute the maximum expected future reward for each possible action at each time step given some state. But when we have infinite possibilities of actions, computing the maximum expected future reward for each action becomes impossible.
+
+<!--
 __________________________________________________________________________
 
 When Neural Networks are applied to Q-learning they are called Q-Networks [6]. We can rewrite the update formula for Q-learning written previously to frame it like a supervised learning problem for Q-Networks. If we let $y_t = r_t + \gamma max_a Q(s_{t+1},a)$, then
@@ -95,13 +99,17 @@ $$ \nabla_\theta L = -[y_t - Q(s_t,a_t;\theta)] \nabla_\theta Q(s_t,a_t;\theta).
 
 Like we did before, we can use gradient descent to learn our network parameters $\theta$,
 
-$$ \theta \leftarrow \theta + \alpha [ r + \gamma \max_a Q(s_t,a;\theta) - Q(s_t,a_t;\theta)] \nabla_\theta Q(s_t,a_t;\theta).$$
+$$ \theta \leftarrow \theta + \alpha [ r + \gamma \max_a Q(s_{t+1},a;\theta) - Q(s_t,a_t;\theta)] \nabla_\theta Q(s_t,a_t;\theta).$$
 
 Having a reinforcement learning algorithm expressed in this way has many benefits. Lets think back to our vacuuming robot example. Say the robot is tasked with vacuuming a dining room. The dining room has specific characteristics that define it, say a table and several chairs. The robot can now identify this room based on its characteristics and can now effectively identify and vacuum the room based on that identification.
 
+-->
+
 ### Stochastic Policy Gradient Theorem and Actor Critic Algorithms
 
-Modern computers can handle the computation of *deep neural networks*, or neural networks with many layers, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the continuous nature of neural networks and Q-Networks plays well with *continuous variable quantum computing*.
+<!-- Last paragraph.
+
+Modern computers can handle the computation of *deep neural networks*, or neural networks with many layers, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the continuous nature of neural networks and Q-Networks plays well with *continuous variable quantum computing*. -->
 
 ## Continuous Variable Quantum Computing
 <!-- what is it -->
