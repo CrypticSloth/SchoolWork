@@ -60,7 +60,7 @@ Using the action-value function has two main advantages over the value function 
 
 Often, the action-value function $Q(s,a)$ is represented as a table, where each state-action pair $s,a$ maps to a particular reward value in the table. Generally, this table can get quite large with big environment spaces, sometimes they can be nearly *continuous* in size. In these scenarios, Q-learning becomes impractical because the table becomes much too large to converge on the optimal policy in a reasonable amount of time. Instead of this approach, we can try to approximate a function $f(s,a)$ of $Q(s,a)$ so that instead of directly learning each value in the table, we can learn the *parameters* of this function instead.
 
-To do this, we can use *function approximation*. Function approximation methods expect to receive examples of the desired input-output behavior of the function they are trying to approximate. We use these methods for value prediction simply by passing to them the $s,a$ of each update as a training example. We then interpret the approximate function they produce as an estimated value function [5]. Therefore, instead of saving the values in the Q-table to determine the best next action, we are taking better actions at each time step in accordance to the learned function approximator.
+To do this, we can use *function approximation*. Function approximation methods expect to receive examples of the desired input-output behavior of the function they are trying to approximate. We use these methods for value prediction simply by passing to them the $s,a$ of each update as a training example. We then interpret the approximate function they produce as an estimated *value function* [5]. Therefore, instead of saving the values in the Q-table to determine the best next action, we are taking better actions at each time step in accordance to the learned function approximator.
 
 Once we frame the problem as a function approximation problem, we can use *neural networks* to learn the approximation of these functions. Neural networks are a computer learning algorithm that is modeled after a simplified version of biological neurons that are grouped into *layers*, where each layer is the result of previous layers multiplied by a *weight*. Neural networks must be trained by a technique called *supervised learning*, which is a machine learning task of learning a function that maps an input to an output based on example input-output pairs collected from an environment. Usually, supervised learning is done for classification problems, but neural networks may be applied to other problems by carefully selecting an *activation function*. An activation function is a function that describes the output of a neuron. Usually, activation functions compresses the outputs of neurons into a sigmoidal shape within a certain range, similarly to how biological neurons are activated.
 
@@ -80,7 +80,7 @@ As seen above, the TD error is the difference between the maximum possible value
 
 $$ \theta \leftarrow \theta + \alpha [ r + \gamma \max_a Q(s_{t+1},a;\theta) - Q(s_t,a_t;\theta)] \nabla_\theta Q(s_t,a_t;\theta).$$
 
-Q-Networks work very well on large environments, especially when there are many layers involved. Q-Networks with many layers of neurons can train much faster and are called *Deep Q-Networks*. However, Q-Networks have trouble when we have a continuous action space. Q-Networks have to compute the maximum expected future reward for each possible action at each time step given some state. But when we have infinite possibilities of actions, computing the maximum expected future reward for each action becomes impossible.
+Q-Networks work very well on large environments, especially when there are many layers involved. Q-Networks with many layers of neurons can train much faster and are called *Deep Q-Networks*. However, Q-Networks have trouble when we have a continuous action space because they compute the maximum expected future reward for each possible action at each time step given some state. But when we have infinite possibilities of actions, computing the maximum expected future reward for each action becomes impossible.
 
 <!--
 __________________________________________________________________________
@@ -105,11 +105,27 @@ Having a reinforcement learning algorithm expressed in this way has many benefit
 
 -->
 
-### Stochastic Policy Gradient Theorem and Actor Critic Algorithms
+### Policy Gradient Theorem and Actor Critic Algorithms
 
-<!-- Last paragraph.
+The *policy gradient* is one of the most popular methods of continuous variable learning algorithms. Instead of estimating a value function which becomes expensive with many actions, we learn directly the policy function that maps state to action. This means that we no longer have to optimize the state $s$ and $a$, and save their results. The idea with policy gradient methods is to adjust the parameters $\theta$ toward the direction of the performance gradient $\nabla_\theta J(\pi_\theta)$. The fundamental result underlying this idea is called the *policy gradient theorem* [8],
 
-Modern computers can handle the computation of *deep neural networks*, or neural networks with many layers, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the continuous nature of neural networks and Q-Networks plays well with *continuous variable quantum computing*. -->
+<!-- These functions need to be changed into the same semantics I used for my other functions -->
+$$ \nabla_\theta J(\pi_\theta) = \int_S p^\theta(s) \int_A \nabla_\theta \pi_\theta (a|s) Q^\pi(s,a) \mathrm{d}a\mathrm{d}s$$
+
+$$ = \mathbb{E}_{s \textasciitilde p^\pi , a \textasciitilde \pi_\theta} [\nabla_\theta \log \pi_\theta (a|s) Q^\pi(s,a)] $$
+
+This formula is simpler than Q-Networks because the policy gradient does not depend on the gradient of the state distribution which reduces the computation of the performance gradient to a simple approximation. Once we can measure the quality of our policy $\pi$ we can use *gradient ascent* to maximize the expected reward of our performance gradient ($\nabla_pi J(\pi_\theta)$). Because of the reduced computation, policy gradient algorithms learning is more stable than Q-Networks. Convergence is also a guarantee, whether its a local maximum (worst case) or global maximum (best case). The most important fact of policy gradients is that it is possible to learn in an environment with a continuous action space which makes policy gradients fundamental in learning in continuous spaces.
+
+The *actor-critic* is a widely used architecture that combines ideas from Q-Networks and the policy gradient theorem [9]. The actor-critic contains two separate neural networks, an *actor* and a *critic*, that work together to learn an environment. The actor controls how the agent behaves by adjusting the parameters $\theta$ of the policy $\pi_\theta(s)$ by gradient ascent, similarly to the policy gradient theorem. However, instead of the unknown true action-value function $Q^\pi(s,a)$, the action-value function $Q^w(s,a)$ is used, with the parameter $w$. The critic measures how good the action taken by the agent is by estimating the action-value function $Q^w(s,a) \approx Q^\pi(s,a)$ using an evaluation algorithm such as temporal-difference learning *at each time step* $t$, similarly to how Q-Networks learn. Because we have two neural networks, we have two parameters $\theta$ and $w$ that must be optimized separately in parallel for each of the neural networks,
+
+$$ \Delta \theta = \alpha \nabla_\theta(\log \pi_\theta(s,a))\hat{q}_w(s,a), $$
+
+$$ \Delta w = \beta(R(s,a) + \gamma \hat{q}_w(s_{t+1},a_{t+1}) - \hat{q}_w(s_t,a_t)) \nabla_w \hat{q}_w(s_t,a_t), $$
+
+where $\alpha$ and $\beta$ are separate learning rates.
+The actor-critic model has many advantages over the policy gradient method. For one, learning is more stable and faster because the parameters are updated at each time step with TD learning instead of at the end of each episode. Another issue with policy gradients is that it takes the average reward over every step in an episode. That means it could identify an episode as good even if there were some bad actions because the total reward was extracted. With the actor-critic model, each action the actor takes is critiqued individually so it takes less episodes to converge on the optimal policy.
+
+Modern computers can handle the computation of *deep reinforcement learning*, termed deep because of the many layers used in neural networks, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the framework of neural networks is highly flexible because of activation functions and can be adapted to advanced RL techniques such as Q-Networks, the policy gradient theorem, and actor-critic models. The continuous nature of neural networks also allow us to practice RL with *continuous variable quantum computing* to train large RL algorithms much quicker.
 
 ## Continuous Variable Quantum Computing
 <!-- what is it -->
@@ -153,12 +169,15 @@ Stochastic Policy Gradient Theorem and Actor Critic algorithms (DPG paper)
 
 [4]: C. J. Watkins and P. Dayan, Machine Learning 8,279 (1992).
 
-[5]: R. S. Sutton and A. G. Barto, *Reinforcement Learning: An Introduction. Second Edition.* (MIT Press, 1998) pg 161-162.
+[5]: R. S. Sutton and A. G. Barto, *Reinforcement Learning: An Introduction. Second Edition.* (MIT Press, 1998) pages 161-162.
 
 [6]: V. Mnih, K. Kavukcuoglu, D. Silver, A. Graves, I. Antonoglou, D. Wierstra, and M. Riedmiller, ArXiv Preprint ArXiv:1312.5602 (2013).
 
 [7]: Nvidia, *GPU-Based Deep Learning Inference: A Performance and Power Analysis*, (Nvidia, 2015) <!-- https://www.nvidia.com/content/tegra/embedded-systems/pdf/jetson_tx1_whitepaper.pdf -->
 
+[8]: R. S. Sutton, D. A. McAllester, S. P. Singh, Y. Mansour, *Policy gradient methods for reinforcement learning with function approximation*, (Neural Information Processing Systems, 1999) pages 1057-1063.
+
+[9]: J. Peters, S. Vijayakumar, S. Schaal, *Natural actor critic* (16th European Conference on Machine Learning, 2005) pages 180-291.
 
 
 <!--
