@@ -105,16 +105,21 @@ Having a reinforcement learning algorithm expressed in this way has many benefit
 
 -->
 
-### Policy Gradient Theorem and Actor Critic Algorithms
+### Deterministic Policy Gradient Theorem and Actor Critic Algorithms
 
-The *policy gradient* is one of the most popular methods of continuous variable learning algorithms. Instead of estimating a value function which becomes expensive with many actions, we learn directly the policy function that maps state to action. This means that we no longer have to optimize the state $s$ and $a$, and save their results. The idea with policy gradient methods is to adjust the parameters $\theta$ toward the direction of the performance gradient $\nabla_\theta J(\pi_\theta)$. The fundamental result underlying this idea is called the *policy gradient theorem* [8],
+The *policy gradient* is one of the most popular methods of continuous variable learning algorithms. Instead of estimating a value function which becomes expensive with many actions, we learn directly the policy function that maps state to action. This means that we no longer have to optimize the state $s$ and $a$, and save their results. The idea with policy gradient methods is to adjust the parameters $\theta$ toward the direction of the performance gradient $\nabla_\theta J(\pi_\theta)$. The fundamental result underlying this idea is called the *policy gradient theorem* [8]. Normally, the policy gradient is modeled as a probability distribution over actions and is therefore *stochastic*. In our case, we will be looking at a derivative of the policy gradient theorem, *Deterministic Policy Gradient Theorem*, which models the policy as a deterministic decision $a = \pi(s).$ This is stated as follows,
 
-<!-- These functions need to be changed into the same semantics I used for my other functions -->
+<!-- These functions need to be changed into the same semantics I used for my other functions
 $$ \nabla_\theta J(\pi_\theta) = \int_S p^\theta(s) \int_A \nabla_\theta \pi_\theta (a|s) Q^\pi(s,a) \mathrm{d}a\mathrm{d}s$$
 
 $$ = \mathbb{E}_{s \textasciitilde p^\pi , a \textasciitilde \pi_\theta} [\nabla_\theta \log \pi_\theta (a|s) Q^\pi(s,a)] $$
+-->
 
-This formula is simpler than Q-Networks because the policy gradient does not depend on the gradient of the state distribution which reduces the computation of the performance gradient to a simple approximation. Once we can measure the quality of our policy $\pi$ we can use *gradient ascent* to maximize the expected reward of our performance gradient ($\nabla_pi J(\pi_\theta)$). Because of the reduced computation, policy gradient algorithms learning is more stable than Q-Networks. Convergence is also a guarantee, whether its a local maximum (worst case) or global maximum (best case). The most important fact of policy gradients is that it is possible to learn in an environment with a continuous action space which makes policy gradients fundamental in learning in continuous spaces.
+$$ \nabla_\theta J(\theta) = \int_S p^\mu(s)\nabla_a Q^\mu(s,a)\nabla_\theta \mu_\theta(s) | a=\mu_{\theta(s)} \mathrm{d}s $$
+
+$$ = \mathbb{E}_{s \textasciitilde p^\mu} [ \nabla_a Q^\mu(s,a) \nabla_\theta \mu_\theta(s) | a=\mu_{\theta(s)}]. $$
+
+This formula is simpler to compute than Q-Networks because the policy gradient does not depend on the gradient of the actions distribution which reduces the computation of the performance gradient to a simple approximation. Once we can measure the quality of our policy $\mu$ we can use *gradient ascent* to maximize the expected reward of our performance gradient ($\nabla_\theta J(\theta)$). Because of the reduced computation, policy gradient algorithms learning is more stable than Q-Networks. Convergence is also a guarantee, whether its a local maximum (worst case) or global maximum (best case). The most important fact of policy gradients is that it is possible to learn in an environment with a continuous action space which makes policy gradients fundamental in learning in continuous spaces.
 
 The *actor-critic* is a widely used architecture that combines ideas from Q-Networks and the policy gradient theorem [9]. The actor-critic contains two separate neural networks, an *actor* and a *critic*, that work together to learn an environment. The actor controls how the agent behaves by adjusting the parameters $\theta$ of the policy $\pi_\theta(s)$ by gradient ascent, similarly to the policy gradient theorem. However, instead of the unknown true action-value function $Q^\pi(s,a)$, the action-value function $Q^w(s,a)$ is used, with the parameter $w$. The critic measures how good the action taken by the agent is by estimating the action-value function $Q^w(s,a) \approx Q^\pi(s,a)$ using an evaluation algorithm such as temporal-difference learning *at each time step* $t$, similarly to how Q-Networks learn. Because we have two neural networks, we have two parameters $\theta$ and $w$ that must be optimized separately in parallel for each of the neural networks,
 
