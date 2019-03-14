@@ -135,6 +135,23 @@ Modern computers can handle the computation of *deep reinforcement learning*, te
 ## Continuous Variable Quantum Computing
 <!-- what is it -->
 
+<!-- Notes
+
+Quantum Neural Networks to do the heavy lifting of the algorithms (those are what take the most time) and then classical components to run the rest of the algorithm. Similiarly to how we can use GPUs to do the bulk of the computation to speed up the algorithm. QC will work with CC to do the computation.
+
+Replace C NN with Q NN...
+
+Outline:
+
+1. What is Quantum Computing?
+2. What is CV Quantum Computing?
+    1. Why do we use CV instead of qubit? (Neural networks are continuous in nature)
+3. Why use it? Can use CVQC to do the heavy lifting.
+4. How it works.
+    1. How CV is physically realized
+    2. How CV neural networks are created (layers) (gates)
+5. Benefits of quantum computing
+-->
 ### Strawberry fields
 
 ## Proposed Study
