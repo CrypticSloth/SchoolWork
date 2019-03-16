@@ -132,7 +132,7 @@ $$ \Delta w = \beta(R(s,a) + \gamma \hat{q}_w(s_{t+1},a_{t+1}) - \hat{q}_w(s_t,a
 where $\alpha$ and $\beta$ are separate learning rates.
 The actor-critic model has many advantages over the policy gradient method. For one, learning is more stable and faster because the parameters are updated at each time step with TD learning instead of at the end of each episode. Another issue with policy gradients is that it takes the average reward over every step in an episode. That means it could identify an episode as good even if there were some bad actions because the total reward was extracted. With the actor-critic model, each action the actor takes is critiqued individually so it takes less episodes to converge on the optimal policy.
 
-An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG) (CITATION) which extends DPG to work in a continuous space with the actor critic framework with two deep neural networks as actor and critic to learn a deterministic policy. One downside of the DPG algorithm is that the agent no longer explores the environment. This is because we no longer have a probability distribution of actions the agent can take, instead we have a set action at every state. To fix this problem, DDPG adds noise ($N$) at every step, $\mu\acute(s) = \mu_\theta(s) + N $ where N is a normal random value.
+An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG) (CITATION) which extends DPG to work in a continuous space with the actor critic framework with two deep neural networks as actor and critic to learn a deterministic policy. One downside of the DPG algorithm is that the agent no longer explores the environment. This is because we no longer have a probability distribution of actions the agent can take, instead we have a set action at every state. To fix this problem, DDPG adds noise ($N$) at every step, $\mu\acute(s) = \mu_\theta(s) + N$ where $N$ is a normal random value.
 
 Modern computers can handle the computation of *deep reinforcement learning*, termed deep because of the many layers used in neural networks, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the framework of neural networks is highly flexible because of activation functions and can be adapted to advanced RL techniques such as Q-Networks, the policy gradient theorem, and actor-critic models. The continuous nature of neural networks also allow us to practice RL with *continuous variable quantum computing* to train large RL algorithms much quicker.
 
@@ -142,9 +142,47 @@ Modern computers can handle the computation of *deep reinforcement learning*, te
 <!-- Will need to add some citations in here I think -->
 Quantum computing is a completely new way to think about computing. Simply put, quantum computing uses quantum phenomena like superposition and entanglement to do computation. A classical computer is made up of bits, and a bit can either be a 1 or a 0. Similarly, a quantum computer is made up of *qubits* which is either a 1, 0, or any quantum superposition of the two. Because of this, Quantum computers have the potential to be much more powerful than classical computers. A quantum computer with $n$ qubits can be in *any* superposition of up to $2^n$ different states, while a classical computer can only be in *one* of those $2^n$ states at any one time. Because quantum computers can be in any of the states at the same time, they are probabilistic, meaning that each state has a certain probability of being selected when measured. The state of the qubits are manipulated using *quantum gates* and multiple gates applied to qubits make up a quantum algorithm. To see the result of the quantum algorithm the qubits must be measured, which removes the quantum properties and probabilistic nature of the bits and converts them into an output of either 1 or 0.
 
-At time of writing, there is one other popular model of quantum computing which is continuous variable (CV) quantum computing. The qubit based quantum computing model are discrete in nature due to the qubits generally being 0 or 1. The CV model leverages wavelike properties found in nature where quantum information is not encoded in qubits but in the quantum states of fields, such as the electromagnetic field. A physical model of one of these computers consists using optical systems in the microwave regime and using ion traps. We observe the position ($\hat{x}$) and the momentum ($\hat{p}$) of photons which are continuous in nature.
+Another popular model of quantum computing is continuous variable (CV) quantum computing. The qubit based quantum computing model is discrete in nature due to the qubits generally being 0 or 1. The CV model, however, is continuous and leverages wavelike properties found in nature where quantum information is not encoded in qubits but in the quantum states of fields, such as the electromagnetic field. Instead of working with qubits, the information encoded in the CV model is called a *qumode*. In the wavefunction representation, we specify a single continuous variable, say $x$, and represent the state of the qumode through a complex-valued function of this variable called the wavefunction $\psi(x)$. $x$ can also be interpreted as a *position* coordinate, and $|\psi(x)|^2$ as the probability density of a particle (photon) being located at $x$. Based on elementary quantum theory, we can use a wavefunction based on a conjugate *momentum* variable, $\phi(p)$. The position $x$ and the momentum $p$ can also be pictured as the real and imaginary parts of a quantum field, such as light [15]. A physical model of one of these computers consists using optical systems (CITATION?) in the microwave regime and using ion traps.
 
-At time of writing, the CV model is largely unexplored when it comes to machine learning, but there have been some recent research that have shown the usefulness of a CV quantum circuit being used as a kernel-based classifier [14]. ...
+The CV model is largely unexplored when it comes to machine learning, but there have been some recent research that have shown the usefulness of the continuous nature of a CV quantum circuit being used as a kernel-based classifier [14]. Even more promising is the use of CV quantum circuits to create neural networks [15]. The CV model is a better fit than the qubit model due to Neural Networks being continuous in nature. Neural Networks are the most expensive part computationally of the reinforcement learning algorithms mentioned previously, like for Deep Q-Networks, actor-critic, and DDPG. If we could use quantum neural networks in these algorithms, it could speed up computation time exponentially, increasing the power of these learning algorithms to new heights.
+
+To create a neural network, a quantum algorithm must be created to simulate a layer in a neural network. These quantum algorithms are made up of gates, which in the CV model manipulate the qumodes. Gates can either be Guassian or not. Guassian gates are the "easy" operations for a CV quantum computer. Some of the most basic operations for a CV quantum computer to manipulate single qumodes are *rotation* $R(\phi)$, *displacement* $D(\alpha)$, and *squeezing* $S(r)$ gates. Another gate, called *beamsplitter* $BS(\theta)$, can be understood as a rotation between two qumodes. These gates can be represented as matrix transformations on phase space and are as follows,
+
+$$ R(\phi): \begin{bmatrix} x \\ p \end{bmatrix} \mapsto
+            \begin{bmatrix}
+            \cos(\phi) & \sin(\phi) \\
+            -\sin(\phi) & \cos(\phi)
+            \end{bmatrix}
+            \begin{bmatrix} x \\ p \end{bmatrix},$$
+$$    D(\alpha): \begin{bmatrix} x \\ p \end{bmatrix} \mapsto
+                \begin{bmatrix}
+                x + Re(\alpha) \\
+                p + Im(\alpha)
+                \end{bmatrix},$$
+$$    S(r): \begin{bmatrix} x \\ p \end{bmatrix} \mapsto
+                \begin{bmatrix}
+                e^{-r} & 0 \\
+                0 & e^r
+                \end{bmatrix}
+                \begin{bmatrix} x \\ p \end{bmatrix},$$
+$$    BS(\theta): \begin{bmatrix} x_1 \\ x_2 \\ p_1 \\ p_2 \end{bmatrix} \mapsto
+                \begin{bmatrix}
+                \cos(\theta) & -\sin(\theta) & 0 & 0 \\
+                \sin(\theta) & \cos(\theta) & 0 & 0 \\
+                0 & 0 & \cos(\theta) & -\sin(\theta) \\
+                0 & 0 & \sin(\theta) & \cos(\theta)
+                \end{bmatrix}
+                \begin{bmatrix} x_1 \\ x_2 \\ p_1 \\ p_2 \end{bmatrix}.$$
+
+The ranges for the parameter values are $\phi, \theta \in [0,2\pi], \alpha \in \mathbb{C} \cong \mathbb{R}^2,$ and $r \in \mathbb{R}.$ To help visualize what these transformations do, we can map the probability phase space in a three dimensional image, and then can simulate what the each of the gates look like when they are applied to a qumode.
+
+![test](GatePictures/VacuumState.png) ![test](GatePictures/RotationGate.png) ![test](GatePictures/DisplacementGate.png) ![test](GatePictures/SqueezingGate.png)
+
+<!-- Images received from https://strawberryfields.readthedocs.io/en/latest/gallery/gate_visualisation/GateVisualisation.html -->
+
+These images, in order, are the vacuum state, which is the initial state of the qumodes with no gate applied, the rotation gate, the displacement gate, and the squeezing gate.
+
+
 
 <!-- Notes
 
@@ -226,6 +264,7 @@ How to implement. How to test. Explain what this env is (image):
 
 [14]: Maria Schuld and Nathan Killoran. *Quantum machine learning in feature Hilbert spaces* arXiv:1803.07128 (2018).
 
+[15]: N. Killoran, T. R. Bromley, J. M. Arrazola, M. Schuld, N. Quesada, S. Lloyd, *Continuous-variable quantum neural networks*, arXiv:1806.06871v1 (2018).
 
 <!--
 ##### Notes
