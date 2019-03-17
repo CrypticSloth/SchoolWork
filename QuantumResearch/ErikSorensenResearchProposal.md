@@ -176,13 +176,15 @@ $$    BS(\theta): \begin{bmatrix} x_1 \\ x_2 \\ p_1 \\ p_2 \end{bmatrix} \mapsto
 
 The ranges for the parameter values are $\phi, \theta \in [0,2\pi], \alpha \in \mathbb{C} \cong \mathbb{R}^2,$ and $r \in \mathbb{R}.$ To help visualize what these transformations do, we can map the probability phase space in a three dimensional image, and then can simulate what the each of the gates look like when they are applied to a qumode.
 
-![test](GatePictures/VacuumState.png) ![test](GatePictures/RotationGate.png) ![test](GatePictures/DisplacementGate.png) ![test](GatePictures/SqueezingGate.png)
+![Vacuum State](GatePictures/VacuumState.png) ![Rotation Gate](GatePictures/RotationGate.png) ![Displacement Gate](GatePictures/DisplacementGate.png) ![Squeezing Gate](GatePictures/SqueezingGate.png)
 
 <!-- Images received from https://strawberryfields.readthedocs.io/en/latest/gallery/gate_visualisation/GateVisualisation.html -->
 
-These images, in order, are the vacuum state, which is the initial state of the qumodes with no gate applied, the rotation gate, the displacement gate, and the squeezing gate.
+These images, in order, are the vacuum state, which is the initial state of the qumodes with no gate applied, the rotation gate, the displacement gate, and the squeezing gate. These gates make up a strong foundation for most CV quantum circuits and are very useful in constructing a CV quantum neural network algorithm. Recently, a quantum neural network algorithm was proposed where a single layer of the neural network consists of an interferometer, which creates superpositions between qumodes, local squeeze gates, a second interferometer, local displacements, and local non-Guassian gates. This is pictured below [15],
 
+![CV Neural Network Layer](GatePictures/QCV_NeuralNetwork.png)
 
+Many of these circuits one after another would make up a neural network algorithm that is very similar to how classical neural networks operate. We can use these quantum neural networks in place of the classical neural networks in the hopes to speed up computation time. As stated before, the neural network is the largest source of computation time with the reinforcement learning algorithms. One day, we could use a classical computer to run the reinforcement learning algorithms along side a quantum chip that runs quantum gate operations to compute the neural network very quickly. The potential computational power this setup has could mean great things for the future of reinforcement learning algorithms and artificial intelligence (AI), some say that quantum computing could be the key to creating truly powerful AI systems that can solve many of the worlds problems.  
 
 <!-- Notes
 
@@ -202,9 +204,14 @@ Outline:
     2. How CV neural networks are created (layers) (gates)
 5. Benefits of quantum computing
 -->
-### Strawberry fields
+### Xanadu and Strawberry Fields
+
+Today, quantum computers are still in their infancy and are very expensive and hard to maintain stable operations. They require large cooling systems and very stable environments to do their calculations correctly. Any slight deviations in the environment of the quantum computer, say a slight tremor or some dust, can drastically change the outcome of quantum algorithms, ruining any computation done with them. Houghton College does not have a quantum computer at their disposal. However, there are some tools that are open to use that can simulate quantum algorithms on classical computers. The main tool that we will be using for our research is Strawberry Fields which is created by the company Xanadu [16]. Xanadu's mission is to create the world's first practical quantum computer. Strawberry Fields is an open source package available on the Python programming language and can simulate the behavior of quantum computers. There are extreme limitations to the simulations we can run however due to the computationally complex nature of simulating the quantum world. We can however simulate small numbers of qumodes with a small number of gates applied to them. While this seems disappointing, the small number should be enough to test whether or not the idea of using quantum neural networks with reinforcement algorithms is possible. Furthermore, once we have the basic idea mapped out, it is possible to rent some time on real life quantum computers to test out any algorithm that we create.
 
 ## Proposed Study
+
+There are many different iterations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms to increase their effectiveness in different environments. However, with the rise of quantum computing, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with the Deep Deterministic Policy Gradient algorithm in the hopes to increase the power of the algorithm and to further explore the possibilities of machine learning with quantum computers. 
+
 
 <!-- Explore continuous variable quantum computing as it relates to continuous deep reinforcement learning -->
 
@@ -266,6 +273,7 @@ How to implement. How to test. Explain what this env is (image):
 
 [15]: N. Killoran, T. R. Bromley, J. M. Arrazola, M. Schuld, N. Quesada, S. Lloyd, *Continuous-variable quantum neural networks*, arXiv:1806.06871v1 (2018).
 
+[16]: https://www.xanadu.ai/.
 <!--
 ##### Notes
 Provide lots of examples on how each of these tools has benefited humanity in the past or how they can be used to make it more easily understandable.
