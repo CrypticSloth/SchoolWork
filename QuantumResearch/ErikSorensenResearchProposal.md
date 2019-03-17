@@ -1,5 +1,5 @@
 ---
-title: "Quantum Neural Network for Continuous Reinforcement Learning"
+title: "Quantum Neural Networks for Continuous Reinforcement Learning"
 author: Erik Sorensen
 date: Data Science Honors Project Proposal
 geometry: "left=2.5cm,right=2.5cm,top=2cm,bottom=2cm"
@@ -107,7 +107,7 @@ Having a reinforcement learning algorithm expressed in this way has many benefit
 
 ### Deterministic Policy Gradient Theorem and Actor Critic Algorithms
 
-The *policy gradient* is one of the most popular methods of continuous variable learning algorithms. Instead of estimating a value function which becomes expensive with many actions, we learn directly the policy function that maps state to action. This means that we no longer have to optimize the state $s$ and $a$, and save their results. The idea with policy gradient methods is to adjust the parameters $\theta$ toward the direction of the performance gradient $\nabla_\theta J(\pi_\theta)$. The fundamental result underlying this idea is called the *policy gradient theorem* [8]. Normally, the policy gradient is modeled as a probability distribution over actions and is therefore *stochastic*. In our case, we will be looking at a derivative of the policy gradient theorem, *Deterministic Policy Gradient Theorem* (DPG) (CITATION), which models the actions taken as a deterministic decision $a = \mu(s).$ This is stated as follows,
+The *policy gradient* is one of the most popular methods of continuous variable learning algorithms. Instead of estimating a value function which becomes expensive with many actions, we learn directly the policy function that maps state to action. This means that we no longer have to optimize the state $s$ and $a$, and save their results. The idea with policy gradient methods is to adjust the parameters $\theta$ toward the direction of the performance gradient $\nabla_\theta J(\pi_\theta)$. The fundamental result underlying this idea is called the *policy gradient theorem* [8]. Normally, the policy gradient is modeled as a probability distribution over actions and is therefore *stochastic*. In our case, we will be looking at a derivative of the policy gradient theorem, *Deterministic Policy Gradient Theorem* (DPG) [20], which models the actions taken as a deterministic decision $a = \mu(s).$ This is stated as follows,
 
 <!-- These functions need to be changed into the same semantics I used for my other functions
 $$ \nabla_\theta J(\pi_\theta) = \int_S p^\theta(s) \int_A \nabla_\theta \pi_\theta (a|s) Q^\pi(s,a) \mathrm{d}a\mathrm{d}s$$
@@ -132,7 +132,7 @@ $$ \Delta w = \beta(R(s,a) + \gamma \hat{q}_w(s_{t+1},a_{t+1}) - \hat{q}_w(s_t,a
 where $\alpha$ and $\beta$ are separate learning rates.
 The actor-critic model has many advantages over the policy gradient method. For one, learning is more stable and faster because the parameters are updated at each time step with TD learning instead of at the end of each episode. Another issue with policy gradients is that it takes the average reward over every step in an episode. That means it could identify an episode as good even if there were some bad actions because the total reward was extracted. With the actor-critic model, each action the actor takes is critiqued individually so it takes less episodes to converge on the optimal policy.
 
-An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG) (CITATION) which extends DPG to work in a continuous space with the actor critic framework with two deep neural networks as actor and critic to learn a deterministic policy. One downside of the DPG algorithm is that the agent no longer explores the environment. This is because we no longer have a probability distribution of actions the agent can take, instead we have a set action at every state. To fix this problem, DDPG adds noise ($N$) at every step, $\mu\acute(s) = \mu_\theta(s) + N$ where $N$ is a normal random value.
+An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG) [21] which extends DPG to work in a continuous space with the actor critic framework with two deep neural networks as actor and critic to learn a deterministic policy. One downside of the DPG algorithm is that the agent no longer explores the environment. This is because we no longer have a probability distribution of actions the agent can take, instead we have a set action at every state. To fix this problem, DDPG adds noise ($N$) at every step, $\mu\acute(s) = \mu_\theta(s) + N$ where $N$ is a normal random value.
 
 Modern computers can handle the computation of *deep reinforcement learning*, termed deep because of the many layers used in neural networks, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the framework of neural networks is highly flexible because of activation functions and can be adapted to advanced RL techniques such as Q-Networks, the policy gradient theorem, and actor-critic models. The continuous nature of neural networks also allow us to practice RL with *continuous variable quantum computing* to train large RL algorithms much quicker.
 
@@ -142,7 +142,7 @@ Modern computers can handle the computation of *deep reinforcement learning*, te
 <!-- Will need to add some citations in here I think -->
 Quantum computing is a completely new way to think about computing. Simply put, quantum computing uses quantum phenomena like superposition and entanglement to do computation. A classical computer is made up of bits, and a bit can either be a 1 or a 0. Similarly, a quantum computer is made up of *qubits* which is either a 1, 0, or any quantum superposition of the two. Because of this, Quantum computers have the potential to be much more powerful than classical computers. A quantum computer with $n$ qubits can be in *any* superposition of up to $2^n$ different states, while a classical computer can only be in *one* of those $2^n$ states at any one time. Because quantum computers can be in any of the states at the same time, they are probabilistic, meaning that each state has a certain probability of being selected when measured. The state of the qubits are manipulated using *quantum gates* and multiple gates applied to qubits make up a quantum algorithm. To see the result of the quantum algorithm the qubits must be measured, which removes the quantum properties and probabilistic nature of the bits and converts them into an output of either 1 or 0.
 
-Another popular model of quantum computing is continuous variable (CV) quantum computing. The qubit based quantum computing model is discrete in nature due to the qubits generally being 0 or 1. The CV model, however, is continuous and leverages wavelike properties found in nature where quantum information is not encoded in qubits but in the quantum states of fields, such as the electromagnetic field. Instead of working with qubits, the information encoded in the CV model is called a *qumode*. In the wavefunction representation, we specify a single continuous variable, say $x$, and represent the state of the qumode through a complex-valued function of this variable called the wavefunction $\psi(x)$. $x$ can also be interpreted as a *position* coordinate, and $|\psi(x)|^2$ as the probability density of a particle (photon) being located at $x$. Based on elementary quantum theory, we can use a wavefunction based on a conjugate *momentum* variable, $\phi(p)$. The position $x$ and the momentum $p$ can also be pictured as the real and imaginary parts of a quantum field, such as light [15]. A physical model of one of these computers consists using optical systems (CITATION?) in the microwave regime and using ion traps.
+Another popular model of quantum computing is continuous variable (CV) quantum computing. The qubit based quantum computing model is discrete in nature due to the qubits generally being 0 or 1. The CV model, however, is continuous and leverages wavelike properties found in nature where quantum information is not encoded in qubits but in the quantum states of fields, such as the electromagnetic field. Instead of working with qubits, the information encoded in the CV model is called a *qumode*. In the wavefunction representation, we specify a single continuous variable, say $x$, and represent the state of the qumode through a complex-valued function of this variable called the wavefunction $\psi(x)$. $x$ can also be interpreted as a *position* coordinate, and $|\psi(x)|^2$ as the probability density of a particle (photon) being located at $x$. Based on elementary quantum theory, we can use a wavefunction based on a conjugate *momentum* variable, $\phi(p)$. The position $x$ and the momentum $p$ can also be pictured as the real and imaginary parts of a quantum field, such as light [15]. A physical model of one of these computers consists using optical systems [17] in the microwave regime [18] and using ion traps [19].
 
 The CV model is largely unexplored when it comes to machine learning, but there have been some recent research that have shown the usefulness of the continuous nature of a CV quantum circuit being used as a kernel-based classifier [14]. Even more promising is the use of CV quantum circuits to create neural networks [15]. The CV model is a better fit than the qubit model due to Neural Networks being continuous in nature. Neural Networks are the most expensive part computationally of the reinforcement learning algorithms mentioned previously, like for Deep Q-Networks, actor-critic, and DDPG. If we could use quantum neural networks in these algorithms, it could speed up computation time exponentially, increasing the power of these learning algorithms to new heights.
 
@@ -190,19 +190,6 @@ Many of these circuits one after another would make up a neural network algorith
 
 Quantum Neural Networks to do the heavy lifting of the algorithms (those are what take the most time) and then classical components to run the rest of the algorithm. Similiarly to how we can use GPUs to do the bulk of the computation to speed up the algorithm. QC will work with CC to do the computation.
 
-Replace C NN with Q NN...
-
-Outline:
-
-1. What is Quantum Computing?
-2. What is CV Quantum Computing?
-    1. Why do we use CV instead of qubit? (Neural networks are continuous in nature)
-    2. Difference is based on the input (discrete: 0,1)(continuous: range from 0 to 1)
-3. Why use it? Can use CVQC to do the heavy lifting.
-4. How it works.
-    1. How CV is physically realized
-    2. How CV neural networks are created (layers) (gates)
-5. Benefits of quantum computing
 -->
 ### Xanadu and Strawberry Fields
 
@@ -210,7 +197,7 @@ Today, quantum computers are still in their infancy and are very expensive and h
 
 ## Proposed Study
 
-There are many different iterations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms to increase their effectiveness in different environments. However, with the rise of quantum computing, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with the Deep Deterministic Policy Gradient algorithm in the hopes to increase the power of the algorithm and to further explore the possibilities of machine learning with quantum computers. 
+There are many different iterations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms to increase their effectiveness in different environments. However, with the rise of quantum computing, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with the Deep Deterministic Policy Gradient algorithm in the hopes to increase the power of the algorithm and to further explore the possibilities of machine learning with quantum computers.
 
 
 <!-- Explore continuous variable quantum computing as it relates to continuous deep reinforcement learning -->
@@ -221,25 +208,13 @@ Function approximation
 Neural Networks what are they how do they work
 How NN can be applied to Reinforcement Learning with Q-Networks
 Stochastic Policy Gradient Theorem and Actor Critic algorithms (DPG paper)
--->
-
-
-<!--
-1. Neural Networks
-2. Q-Networks
-3. Deep Q-Networks   
-
-## Continuous Variable Quantum Computing
-
-1. Examples - What is it?
-2. Tools we will use (Strawberry fields/Python)
 
 ## Proposed Study
 
 How to implement. How to test. Explain what this env is (image):
     do pendulum test (https://gym.openai.com/envs/Pendulum-v0/)
 
-1. Quantum Computing to solve Deep Continuous Reinforcement learning -->
+-->
 
 ## References
 
@@ -267,13 +242,23 @@ How to implement. How to test. Explain what this env is (image):
 
 [12]: S. Dimitriadis and C. Goumopoulos, *Applying machine learning to extract new knowledge in precision agriculture applications*, (Panhellenic Conference on Informatics, 2008).
 
-[13]: J. Moody and M. Saffell, Neural Networks, IEEE Transactions on 12, 875 (2001).
+[13]: J. Moody and M. Saffell, *Neural Networks*, IEEE Transactions on 12, 875 (2001).
 
 [14]: Maria Schuld and Nathan Killoran. *Quantum machine learning in feature Hilbert spaces* arXiv:1803.07128 (2018).
 
 [15]: N. Killoran, T. R. Bromley, J. M. Arrazola, M. Schuld, N. Quesada, S. Lloyd, *Continuous-variable quantum neural networks*, arXiv:1806.06871v1 (2018).
 
 [16]: https://www.xanadu.ai/.
+
+[17]: U. L. Andersen, J. S. Neergaard-Nielsen, P. Loock, and A. Furusawa. *Hybrid discrete-and continuous-variable quantum information*. Nature Physics, 11(9):713, 2015.
+
+[18]: K. Moon and S. M. Girvin. *Theory of microwave para-metric down-conversion and  squeezing using circuit QED*. Physical review letters, 95(14):140504, 2005.
+
+[19]: Chao  Shen, Zhen Zhang, and L-M  Duan. *Scalable implementation of boson sampling with trapped ions*. Physical review letters, 112(5):050504, 2014.
+
+[20]: D. Silver, G. Leve, N. Heess, T. Degris, D. Wierstra, M. Riedmiller, *Deterministic Policy Gradient Algorithms*. DeepMind Technologies London and University College London UK. (2014).
+
+[21]: T. P. Lillicrap, J. J. Hunt, A. Pritzel, N. Heess, T. Erez, Y. Tassa, D. Silver and D. Wierstra, *Continuous Control with Deep Reinforcement Learning*, Google Deepmind London UK, (2016).
 <!--
 ##### Notes
 Provide lots of examples on how each of these tools has benefited humanity in the past or how they can be used to make it more easily understandable.
