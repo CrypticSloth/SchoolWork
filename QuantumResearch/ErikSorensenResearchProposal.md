@@ -215,10 +215,11 @@ Add more to the pendulum enviornment description
     "The inverted pendulum swingup problem is a classic problem in the control literature. In this version of the problem, the pendulum starts in a random position, and the goal is to swing it up so it stays upright."
 Include the DDPG sudo code in the paper
 -->
-There are many different iterations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms on different environments. However, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with Google DeepMind's continuous deep deterministic policy gradient algorithm [21] to learn the inverted pendulum environment [22]. The inverted pendulum is a classic problem in the control literature. More specifically, we will be solving the Pendulum-v0 problem provided by gym. In this version of the problem, the pendulum starts in a random position, and the goal is to swing the pendulum up so it stays upright.
+There are many different iterations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms on different environments. However, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with Google DeepMind's continuous deep deterministic policy gradient algorithm [21] to learn the inverted pendulum environment [22]. The inverted pendulum is a classic problem in the control literature. More specifically, we will be solving the Pendulum-v0 problem provided by OpenAI. In this version of the problem, the pendulum starts in a random position, and the goal is to swing the pendulum up so it stays upright.
 
 Out steps to solve this problem are as follows:
 
+<!-- Elaborate on these steps to make the proposed study section about a page??-->
 1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python.
 2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline.
 3. Create the Quantum neural network pictured on page 7 using Strawberry Fields in Python from Xanadu.
@@ -277,7 +278,7 @@ How to implement. How to test. Explain what this env is (image):
 
 [15]: N. Killoran, T. R. Bromley, J. M. Arrazola, M. Schuld, N. Quesada, S. Lloyd, *Continuous-variable quantum neural networks*, arXiv:1806.06871v1 (2018).
 
-<!--[16]: https://www.xanadu.ai/ . -->
+[16]: Xanadu, (https://www.xanadu.ai/).
 
 [17]: U. L. Andersen, J. S. Neergaard-Nielsen, P. Loock, and A. Furusawa. *Hybrid discrete-and continuous-variable quantum information*. Nature Physics, 11(9):713, (2015).
 
@@ -289,7 +290,7 @@ How to implement. How to test. Explain what this env is (image):
 
 [21]: T. P. Lillicrap, J. J. Hunt, A. Pritzel, N. Heess, T. Erez, Y. Tassa, D. Silver and D. Wierstra, *Continuous Control with Deep Reinforcement Learning*, Google Deepmind London UK, (2016).
 
-[22]: https://gym.openai.com/envs/Pendulum-v0/ .
+[22]: OpenAI, (https://gym.openai.com/envs/Pendulum-v0/).
 <!--
 ##### Notes
 Provide lots of examples on how each of these tools has benefited humanity in the past or how they can be used to make it more easily understandable.
