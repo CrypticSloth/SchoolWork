@@ -133,7 +133,10 @@ $$ \Delta w = \beta(R(s,a) + \gamma \hat{q}_w(s_{t+1},a_{t+1}) - \hat{q}_w(s_t,a
 where $\alpha$ and $\beta$ are separate learning rates.
 The actor-critic model has many advantages over the policy gradient method. For one, learning is more stable and faster because the parameters are updated at each time step with TD learning instead of at the end of each episode. Another issue with policy gradients is that it takes the average reward over every step in an episode. That means it could identify an episode as good even if there were some bad actions because the total reward was extracted. With the actor-critic model, each action the actor takes is critiqued individually so it takes less episodes to converge on the optimal policy.
 
-An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG) [21] which extends DPG to work in a continuous space with the actor critic framework to learn a deterministic policy. One downside of the DPG algorithm is that the agent no longer explores the environment and always takes the action with the maximum expected reward. This is due to the fact that we no longer have a probability distribution of actions the agent can take. To fix this problem, DDPG adds noise $N$ at every step, $\mu'(s) = \mu_\theta(s) + N$ where $N$ is a normal random value.
+An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG) [21] which extends DPG to work in a continuous space with the actor critic framework to learn a deterministic policy. One downside of the DPG algorithm is that the agent no longer explores the environment and always takes the action with the maximum expected reward. This is due to the fact that we no longer have a probability distribution of actions the agent can take. To fix this problem, DDPG adds noise $N$ at every step, $\mu'(s) = \mu_\theta(s) + N$ where $N$ is a normal random value. The entire algorithm is listed below for context,
+
+<!-- probably will need to recreate this image with LateX instead -->
+![Deep Deterministic Policy Gradients Pseudo Code](GatePictures/DDPG_80.png).
 
 Modern computers can handle the computation of *deep reinforcement learning*, termed deep because of the many layers used in neural networks, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the framework of neural networks is highly flexible because of activation functions and can be adapted to advanced RL techniques such as Q-Networks, the policy gradient theorem, and actor-critic models. The continuous nature of neural networks also allow us to practice RL with *continuous variable quantum computing* to train large RL algorithms much quicker.
 
@@ -200,7 +203,30 @@ Today, quantum computers are still in their infancy. They are very expensive bec
 
 ## Proposed Study
 
-There are many different iterations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms on different environments. However, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with Google DeepMind's continuous control deep reinforcement learning algorithm [21] to learn the pendulum environment [22]. The pendulum is a popular simulated physics environment where the goal is to swing a pendulum so that it stays upright. Our goal is to increase the power of the algorithm with quantum computing and to further explore the possibilities of reinforcement learning integrated with quantum computers.
+<!--
+
+TODO:
+
+Fix Bibliography
+Fix Algorithm 1
+Put proposed study into steps
+    How to create and test quantum Networks
+Add more to the pendulum enviornment description
+    "The inverted pendulum swingup problem is a classic problem in the control literature. In this version of the problem, the pendulum starts in a random position, and the goal is to swing it up so it stays upright."
+Include the DDPG sudo code in the paper
+-->
+There are many different iterations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms on different environments. However, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with Google DeepMind's continuous deep deterministic policy gradient algorithm [21] to learn the inverted pendulum environment [22]. The inverted pendulum is a classic problem in the control literature. More specifically, we will be solving the Pendulum-v0 problem provided by gym. In this version of the problem, the pendulum starts in a random position, and the goal is to swing the pendulum up so it stays upright.
+
+Out steps to solve this problem are as follows:
+
+1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python.
+2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline.
+3. Create the Quantum neural network pictured on page 7 using Strawberry Fields in Python from Xanadu.
+4. Replace the neural networks in the DDPG algorithm with our new quantum neural networks.
+5. Test our new hybrid algorithm with classical computers on the pendulum environment and compare our results with our baseline test from step 2.
+6. Depending on how successful our tests are, we may run our algorithm on a real quantum computer and note any differences in how our algorithm behaves from our simulated quantum computer to the real quantum computer.
+
+Our motivation for doing this research is to explore the possibilities of creating hybrid algorithms that utilize both the power of quantum computers with the practicality of classical computers. If successful, this could lead to useful applications of quantum computers. We propose this research to test the effectiveness of such algorithms by combining quantum neural networks with the DDPG algorithm on continuous control problems. We chose this algorithm based on its proven effectiveness to tackle environments in the continuous realm which can be expanded onto many different kinds of fields. We also hope that this research will inspire more researchers to explore the possibilities of these hybrid algorithms.
 
 
 <!-- Explore continuous variable quantum computing as it relates to continuous deep reinforcement learning -->
