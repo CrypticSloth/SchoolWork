@@ -220,7 +220,9 @@ There are many different iterations of popular reinforcement learning algorithms
 Out steps to solve this problem are as follows:
 
 <!-- Elaborate on these steps to make the proposed study section about a page??-->
-1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python. <!-- put the psudo code here. Reference to writing psudo code https://www.math-linux.com/latex-26/faq/latex-faq/article/how-to-write-algorithm-and-pseudocode-in-latex-usepackage-algorithm-usepackage-algorithmic-->
+1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python. <!-- put the psudo code here. Reference to writing psudo code https://www.math-linux.com/latex-26/faq/latex-faq/article/how-to-write-algorithm-and-pseudocode-in-latex-usepackage-algorithm-usepackage-algorithmic
+
+Maybe write out the entire final proposed algorithm as well, with the quantum neural networks implemented into it-->
 2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline.
 3. Create the Quantum neural network pictured on page 7 using Strawberry Fields in Python from Xanadu.
 4. Replace the neural networks in the DDPG algorithm with our new quantum neural networks.
