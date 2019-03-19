@@ -220,14 +220,14 @@ There are many different iterations of popular reinforcement learning algorithms
 Out steps to solve this problem are as follows:
 
 <!-- Elaborate on these steps to make the proposed study section about a page??-->
-1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python.
+1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python. <!-- put the psudo code here. Reference to writing psudo code https://www.math-linux.com/latex-26/faq/latex-faq/article/how-to-write-algorithm-and-pseudocode-in-latex-usepackage-algorithm-usepackage-algorithmic-->
 2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline.
 3. Create the Quantum neural network pictured on page 7 using Strawberry Fields in Python from Xanadu.
 4. Replace the neural networks in the DDPG algorithm with our new quantum neural networks.
 5. Test our new hybrid algorithm with classical computers on the pendulum environment and compare our results with our baseline test from step 2.
 6. Depending on how successful our tests are, we may run our algorithm on a real quantum computer and note any differences in how our algorithm behaves from our simulated quantum computer to the real quantum computer.
 
-Our motivation for doing this research is to explore the possibilities of creating hybrid algorithms that utilize both the power of quantum computers with the practicality of classical computers. If successful, this could lead to useful applications of quantum computers. We propose this research to test the effectiveness of such algorithms by combining quantum neural networks with the DDPG algorithm on continuous control problems. We chose this algorithm based on its proven effectiveness to tackle environments in the continuous realm which can be expanded onto many different kinds of fields. We also hope that this research will inspire more researchers to explore the possibilities of these hybrid algorithms.
+Our motivation for doing this research is to explore the possibilities of creating hybrid algorithms that utilize both the power of quantum computers with the practicality of classical computers. If successful, this could lead to useful applications of quantum computers. We propose this research to test the effectiveness of such algorithms by combining quantum neural networks with the DDPG algorithm on continuous control problems. We chose this algorithm based on its proven effectiveness to tackle environments in the continuous realm which can be expanded onto many different kinds of fields, such as self driving cars. We also hope that this research will inspire more researchers to explore the possibilities of these hybrid algorithms.
 
 
 <!-- Explore continuous variable quantum computing as it relates to continuous deep reinforcement learning -->
