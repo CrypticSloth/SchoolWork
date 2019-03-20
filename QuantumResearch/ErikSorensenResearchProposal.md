@@ -248,16 +248,47 @@ There are many different iterations of popular reinforcement learning algorithms
 Out steps to solve this problem are as follows:
 
 <!-- Elaborate on these steps to make the proposed study section about a page??-->
-1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python. <!-- put the psudo code here. Reference to writing psudo code https://www.math-linux.com/latex-26/faq/latex-faq/article/how-to-write-algorithm-and-pseudocode-in-latex-usepackage-algorithm-usepackage-algorithmic
-
-Maybe write out the entire final proposed algorithm as well, with the quantum neural networks implemented into it-->
-2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline.
+1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python.
+2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline. The results we will be recording are metrics such as time to compute, number of episodes required for the algorithm to solve the problem, and stability of learning. Stability of learning can be mapped out as progress toward solving a goal over time.
 3. Create the Quantum neural network pictured on page 7 using Strawberry Fields in Python from Xanadu.
-4. Replace the neural networks in the DDPG algorithm with our new quantum neural networks.
-5. Test our new hybrid algorithm with classical computers on the pendulum environment and compare our results with our baseline test from step 2.
-6. Depending on how successful our tests are, we may run our algorithm on a real quantum computer and note any differences in how our algorithm behaves from our simulated quantum computer to the real quantum computer.
+4. Create our new proposed algorithm by replacing the neural networks in the DDPG algorithm with our new quantum neural networks. Our proposed algorithm is stated in Algorithm 2.
+5. Test our new hybrid algorithm with classical computers on the pendulum environment and compare our results with our baseline metrics extracted from step 2 by comparing time to compute, number of episodes required, and stability of learning.
+6. If the test is successful, we may try to run our algorithm on a real quantum computer and note the differences in how our algorithm behaves from our simulated quantum computer to the real quantum computer. We would expect that time to compute would be drastically lower on a real quantum computer but stability of learning may be lower due to the instable nature of real quantum computers.
 
-Our motivation for doing this research is to explore the possibilities of creating hybrid algorithms that utilize both the power of quantum computers with the practicality of classical computers. If successful, this could lead to useful applications of quantum computers. We propose this research to test the effectiveness of such algorithms by combining quantum neural networks with the DDPG algorithm on continuous control problems. We chose this algorithm based on its proven effectiveness to tackle environments in the continuous realm which can be expanded onto many different kinds of fields, such as self driving cars. We also hope that this research will inspire more researchers to explore the possibilities of these hybrid algorithms.
+<!-- Talk with Dr. Hu about this algorithm -->
+\begin{algorithm}
+\caption{Proposed Hybrid Algorithm}
+\begin{algorithmic}
+
+<!-- Questions for Dr. Hu,
+
+1. For this algorithm, the weights of the quantum nueral network are each of the parameters for each gate in the layers?
+
+-->
+\STATE Randomly initialize critic quantum network $Q(s,a|\theta^Q)$ and actor quantum network $\mu(s|\theta^\mu)$ with weights $\theta^Q$ and $\theta^\mu$ <!-- with the gates xyz... -->
+\STATE Initialize target quantum network $Q'$ and $\mu'$ with weights $\theta^{Q'} \leftarrow \theta^Q , \theta^{\mu'} \leftarrow^\mu$ <!-- these would be the weights of each gate? -->
+\STATE Initialize replay buffer $R$
+\FOR{ $ episode = 1 , M$}
+\STATE Initialize a random process $N$ for action exploration
+\STATE Receive initial observation state $s_1$
+\FOR{$t = 1, T$}
+\STATE Select action $a_t = \mu(s_t|\theta^\mu) + N_t$ according to the current policy and exploration noise
+\STATE Execute action $a_t$ and observe reward $r_t$ and observe new state $s_t + 1$
+\STATE Store transition $(s_t,a_t,r_t,s_{t+1}$ in $R$
+\STATE Sample a random minibatch of $N$ transitions $(s_i,a_i,r_i,s_{i+1}$ from $R$
+\STATE Set $y_i = r_i + \gamma Q'(s_{i + 1}, \mu'(s_{i+1}|\theta^{\mu'})|\theta^{Q'})$
+\STATE Update critic by minimizing the loss: $L = 1/N \sum{i} (y_i - Q(s_i,a_i | \theta^Q))^2$
+\STATE Update the actor policy using the sampled policy gradient:
+$$ \nabla_{\theta \mu} J \approx 1/N \sum{i} \nabla_a Q(s,a|\theta^Q)|{s=s_i,a=\mu(s_i)} \nabla {\theta\mu} \mu(s|\theta^\mu)|s_i $$
+\STATE Update the target quantum networks:
+$$ \theta^{Q'} \leftarrow \tau \theta^Q + (1 - \tau) \theta^{Q'}$$
+$$ \theta^{\mu'} \leftarrow \tau\theta^\mu + (1 - \tau) \theta^{\mu'}$$
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+Our motivation for doing this research is to explore the possibilities of creating hybrid algorithms that utilize both the power of quantum computers with the practicality of classical computers. If successful, this could lead to useful applications of quantum computers. We propose this research to test the effectiveness of such algorithms by combining quantum neural networks with the DDPG algorithm on continuous control problems. We chose the DDPG algorithm based on its proven effectiveness to tackle environments in the continuous realm which can be expanded onto many different kinds of fields, such as self driving cars. We also hope that this research will inspire more researchers to explore the possibilities of these hybrid algorithms.
 
 
 <!-- Explore continuous variable quantum computing as it relates to continuous deep reinforcement learning -->
