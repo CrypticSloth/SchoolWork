@@ -3,6 +3,9 @@ title: "Quantum Neural Networks for Continuous Reinforcement Learning"
 author: Erik Sorensen
 date: Data Science Honors Project Proposal
 geometry: "left=2.4cm,right=2.4cm,top=2cm,bottom=2cm"
+header-includes:
+    - \usepackage{algorithm}
+    - \usepackage{algorithmic}
 output: pdf_document
 ---
 
@@ -133,10 +136,35 @@ $$ \Delta w = \beta(R(s,a) + \gamma \hat{q}_w(s_{t+1},a_{t+1}) - \hat{q}_w(s_t,a
 where $\alpha$ and $\beta$ are separate learning rates.
 The actor-critic model has many advantages over the policy gradient method. For one, learning is more stable and faster because the parameters are updated at each time step with TD learning instead of at the end of each episode. Another issue with policy gradients is that it takes the average reward over every step in an episode. That means it could identify an episode as good even if there were some bad actions because the total reward was extracted. With the actor-critic model, each action the actor takes is critiqued individually so it takes less episodes to converge on the optimal policy.
 
-An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG) [21] which extends DPG to work in a continuous space with the actor critic framework to learn a deterministic policy. One downside of the DPG algorithm is that the agent no longer explores the environment and always takes the action with the maximum expected reward. This is due to the fact that we no longer have a probability distribution of actions the agent can take. To fix this problem, DDPG adds noise $N$ at every step, $\mu'(s) = \mu_\theta(s) + N$ where $N$ is a normal random value. The entire algorithm is listed below for context,
+An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG) [21] which extends DPG to work in a continuous space with the actor critic framework to learn a deterministic policy. One downside of the DPG algorithm is that the agent no longer explores the environment and always takes the action with the maximum expected reward. This is due to the fact that we no longer have a probability distribution of actions the agent can take. To fix this problem, DDPG adds noise $N$ at every step, $\mu'(s) = \mu_\theta(s) + N$ where $N$ is a normal random value. The entire algorithm is listed in Algorithm 1.
 
-<!-- probably will need to recreate this image with LateX instead -->
-![Deep Deterministic Policy Gradients Pseudo Code](GatePictures/DDPG_80.png).
+<!-- be sure to install texlive-science do do this -->
+\begin{algorithm}
+\caption{DDPG algorithm}
+\begin{algorithmic}
+
+\STATE Randomly initialize critic network $Q(s,a|\theta^Q)$ and actor $\mu(s|\theta^\mu)$ with weights $\theta^Q$ and $\theta^\mu$
+\STATE Initialize target network $Q'$ and $\mu'$ with weights $\theta^{Q'} \leftarrow \theta^Q , \theta^{\mu'} \leftarrow^\mu$
+\STATE Initialize replay buffer $R$
+\FOR{ $ episode = 1 , M$}
+\STATE Initialize a random process $N$ for action exploration
+\STATE Receive initial observation state $s_1$
+\FOR{$t = 1, T$}
+\STATE Select action $a_t = \mu(s_t|\theta^\mu) + N_t$ according to the current policy and exploration noise
+\STATE Execute action $a_t$ and observe reward $r_t$ and observe new state $s_t + 1$
+\STATE Store transition $(s_t,a_t,r_t,s_{t+1}$ in $R$
+\STATE Sample a random minibatch of $N$ transitions $(s_i,a_i,r_i,s_{i+1}$ from $R$
+\STATE Set $y_i = r_i + \gamma Q'(s_{i + 1}, \mu'(s_{i+1}|\theta^{\mu'})|\theta^{Q'})$
+\STATE Update critic by minimizing the loss: $L = 1/N \sum{i} (y_i - Q(s_i,a_i | \theta^Q))^2$
+\STATE Update the actor policy using the sampled policy gradient:
+$$ \nabla_{\theta \mu} J \approx 1/N \sum{i} \nabla_a Q(s,a|\theta^Q)|{s=s_i,a=\mu(s_i)} \nabla {\theta\mu} \mu(s|\theta^\mu)|s_i $$
+\STATE Update the target networks:
+$$ \theta^{Q'} \leftarrow \tau \theta^Q + (1 - \tau) \theta^{Q'}$$
+$$ \theta^{\mu'} \leftarrow \tau\theta^\mu + (1 - \tau) \theta^{\mu'}$$
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
 
 Modern computers can handle the computation of *deep reinforcement learning*, termed deep because of the many layers used in neural networks, much better than Q-learning because of recent techniques in parallelization and GPU matrix multiplication [7]. Furthermore, the framework of neural networks is highly flexible because of activation functions and can be adapted to advanced RL techniques such as Q-Networks, the policy gradient theorem, and actor-critic models. The continuous nature of neural networks also allow us to practice RL with *continuous variable quantum computing* to train large RL algorithms much quicker.
 
