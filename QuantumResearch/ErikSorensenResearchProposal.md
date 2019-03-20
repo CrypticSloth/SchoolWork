@@ -249,7 +249,7 @@ Out steps to solve this problem are as follows:
 
 <!-- Elaborate on these steps to make the proposed study section about a page??-->
 1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python.
-2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline. The results we will be recording are metrics such as time to compute, number of episodes required for the algorithm to solve the problem, and stability of learning. Stability of learning can be mapped out as progress toward solving a goal over time.
+2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline. The results we will be recording are the metrics time to compute, number of episodes required for the algorithm to solve the problem, and stability of learning. Stability of learning can be visualized as progress toward solving a goal over time.
 3. Create the Quantum neural network pictured on page 7 using Strawberry Fields in Python from Xanadu.
 4. Create our new proposed algorithm by replacing the neural networks in the DDPG algorithm with our new quantum neural networks. Our proposed algorithm is stated in Algorithm 2.
 5. Test our new hybrid algorithm with classical computers on the pendulum environment and compare our results with our baseline metrics extracted from step 2 by comparing time to compute, number of episodes required, and stability of learning.
