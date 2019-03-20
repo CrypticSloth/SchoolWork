@@ -255,18 +255,15 @@ Out steps to solve this problem are as follows:
 5. Test our new hybrid algorithm with classical computers on the pendulum environment and compare our results with our baseline metrics extracted from step 2 by comparing time to compute, number of episodes required, and stability of learning.
 6. If the test is successful, we may try to run our algorithm on a real quantum computer and note the differences in how our algorithm behaves from our simulated quantum computer to the real quantum computer. We would expect that time to compute would be drastically lower on a real quantum computer but stability of learning may be lower due to the instable nature of real quantum computers.
 
-<!-- Talk with Dr. Hu about this algorithm -->
+<!-- Talk with Dr. Hu about this algorithm
+1. Are the weights of the new quantum neural network that we update the parameters of each of the gates that make each layer up?
+-->
 \begin{algorithm}
 \caption{Proposed Hybrid Algorithm}
 \begin{algorithmic}
 
-<!-- Questions for Dr. Hu,
-
-1. For this algorithm, the weights of the quantum nueral network are each of the parameters for each gate in the layers?
-
--->
-\STATE Randomly initialize critic quantum network $Q(s,a|\theta^Q)$ and actor quantum network $\mu(s|\theta^\mu)$ with weights $\theta^Q$ and $\theta^\mu$ <!-- with the gates xyz... -->
-\STATE Initialize target quantum network $Q'$ and $\mu'$ with weights $\theta^{Q'} \leftarrow \theta^Q , \theta^{\mu'} \leftarrow^\mu$ <!-- these would be the weights of each gate? -->
+\STATE Randomly initialize critic quantum network $Q(s,a|\theta^Q)$ and actor quantum network $\mu(s|\theta^\mu)$ with weights $\theta^Q$ and $\theta^\mu$
+\STATE Initialize target quantum network $Q'$ and $\mu'$ with weights $\theta^{Q'} \leftarrow \theta^Q , \theta^{\mu'} \leftarrow^\mu$
 \STATE Initialize replay buffer $R$
 \FOR{ $ episode = 1 , M$}
 \STATE Initialize a random process $N$ for action exploration
