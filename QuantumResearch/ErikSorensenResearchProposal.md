@@ -246,7 +246,7 @@ Our steps to solve this problem are as follows:
 1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python.
 2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline. The results we will be recording are the metrics time to compute, number of episodes required for the algorithm to solve the problem, and stability of learning. Stability of learning can be visualized as progress toward solving a goal over time.
 3. Create the Quantum neural network pictured on page 6 using Strawberry Fields in Python from Xanadu.
-4. Create our new proposed algorithm by replacing the neural networks in the DDPG algorithm with our new quantum neural networks. An example of such an algorithm is stated in Figure 1.
+4. Create our new proposed *hybrid* algorithm by replacing the neural networks in the DDPG algorithm with our new quantum neural networks. An example of such an algorithm is stated in Figure 1 and the Python code following.
 5. Test our new hybrid algorithm with classical computers on the pendulum environment and compare our results with our baseline metrics extracted from step 2 by comparing time to compute, number of episodes required, and stability of learning.
 6. If the test is successful, we may try to run our algorithm on a real quantum computer and note the differences in how our algorithm behaves from our simulated quantum computer to the real quantum computer. We would expect that time to compute would be drastically lower on a real quantum computer but stability of learning may be lower due to the instable nature of real quantum computers.
 
@@ -255,7 +255,7 @@ Our steps to solve this problem are as follows:
 -->
 ![Hybrid Computation. This graph shows how classical computers and quantum computers can work together to do powerful computation.](GatePictures/HybridComputer.png)
 
-Here is an example program from Xanadu that uses Python with Xanadu's Pennylane package that simulates hybrid computation of a gradient:
+Below is an example hybrid program from Xanadu that uses Python with Xanadu's Pennylane package that simulates hybrid computation of a gradient, which is a very important step for machine learning:
 
 ```
 import pennylane as qml
@@ -279,7 +279,7 @@ def cost(x, y):
 dcost = qml.grad(cost, argnum=[0,1])
 ```
 
-Our motivation for doing this research is to explore the possibilities of creating hybrid algorithms that utilize both the power of quantum computers with the practicality of classical computers. If successful, this could lead to useful applications of quantum computers. We propose this research to test the effectiveness of such algorithms by combining quantum neural networks with the DDPG algorithm on continuous control problems. We chose the DDPG algorithm based on its proven effectiveness to tackle environments in the continuous realm which can be expanded onto many different kinds of fields, such as self driving cars. We also hope that this research will inspire more researchers to explore the possibilities of these hybrid algorithms.
+Our motivation for doing this research is to explore the possibilities of creating hybrid algorithms that utilize both the power of quantum computers with the practicality of classical computers. If successful, this could lead to useful applications of quantum computers. We propose this research to test the effectiveness of such algorithms by combining quantum neural networks with the DDPG algorithm on continuous control problems. We chose the DDPG algorithm based on its proven effectiveness to tackle environments in the continuous realm which can be expanded onto many different kinds of fields, such as self driving cars, or in our case, the pendulum problem. We also hope that this research will inspire more researchers to explore the possibilities of these hybrid algorithms.
 
 <!-- Explore continuous variable quantum computing as it relates to continuous deep reinforcement learning -->
 
