@@ -1,0 +1,30 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Project 3</title>
+        {% else %}
+        <title>Project 3</title>
+        {% endif %}
+
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../static/styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <div>
+            Databases - Project 3:
+            <a href="/index">Home</a>
+            <a href="/login">Login</a>
+        </div>
+        {% block content %}{% endblock %}
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    </body>
+</html>
