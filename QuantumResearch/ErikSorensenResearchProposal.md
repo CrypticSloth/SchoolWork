@@ -1,5 +1,5 @@
 ---
-title: "Quantum Neural Networks for Continuous Reinforcement Learning"
+title: "Quantum Neural Networks for Reinforcement Learning"
 author: Erik Sorensen
 date: Data Science Honors Project Proposal
 geometry: "left=2.4cm,right=2.4cm,top=2cm,bottom=2cm"
@@ -144,20 +144,20 @@ An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG)
 \begin{algorithmic}
 
 \STATE Randomly initialize critic network $Q(s,a|\theta^Q)$ and actor $\mu(s|\theta^\mu)$ with weights $\theta^Q$ and $\theta^\mu$
-\STATE Initialize target network $Q'$ and $\mu'$ with weights $\theta^{Q'} \leftarrow \theta^Q , \theta^{\mu'} \leftarrow^\mu$
+\STATE Initialize target network $Q'$ and $\mu'$ with weights $\theta^{Q'} \leftarrow \theta^Q , \theta^{\mu'} \leftarrow \theta^\mu$
 \STATE Initialize replay buffer $R$
-\FOR{ $ episode = 1 , M$}
+\FOR{episode = 1 , M}
 \STATE Initialize a random process $N$ for action exploration
 \STATE Receive initial observation state $s_1$
-\FOR{$t = 1, T$}
+\FOR{t = 1, T}
 \STATE Select action $a_t = \mu(s_t|\theta^\mu) + N_t$ according to the current policy and exploration noise
 \STATE Execute action $a_t$ and observe reward $r_t$ and observe new state $s_t + 1$
-\STATE Store transition $(s_t,a_t,r_t,s_{t+1}$ in $R$
-\STATE Sample a random minibatch of $N$ transitions $(s_i,a_i,r_i,s_{i+1}$ from $R$
+\STATE Store transition $(s_t,a_t,r_t,s_{t+1})$ in $R$
+\STATE Sample a random minibatch of $N$ transitions $(s_i,a_i,r_i,s_{i+1})$ from $R$
 \STATE Set $y_i = r_i + \gamma Q'(s_{i + 1}, \mu'(s_{i+1}|\theta^{\mu'})|\theta^{Q'})$
-\STATE Update critic by minimizing the loss: $L = 1/N \sum{i} (y_i - Q(s_i,a_i | \theta^Q))^2$
+\STATE Update critic by minimizing the loss: $L = \frac{1}{N} \sum{i} (y_i - Q(s_i,a_i | \theta^Q))^2$
 \STATE Update the actor policy using the sampled policy gradient:
-$$ \nabla_{\theta \mu} J \approx 1/N \sum{i} \nabla_a Q(s,a|\theta^Q)|{s=s_i,a=\mu(s_i)} \nabla {\theta\mu} \mu(s|\theta^\mu)|s_i $$
+$$ \nabla_{\theta \mu} J \approx \frac{1}{N} \sum{i} \nabla_a Q(s,a|\theta^Q)|{s=s_i,a=\mu(s_i)} \nabla_{\theta\mu} \mu(s|\theta^\mu)|s_i $$
 \STATE Update the target networks:
 $$ \theta^{Q'} \leftarrow \tau \theta^Q + (1 - \tau) \theta^{Q'}$$
 $$ \theta^{\mu'} \leftarrow \tau\theta^\mu + (1 - \tau) \theta^{\mu'}$$
@@ -236,57 +236,50 @@ Today, quantum computers are still in their infancy. They are very expensive bec
 TODO:
 
 Fix Bibliography
-Fix Algorithm 1
-Put proposed study into steps
-    How to create and test quantum Networks
-Add more to the pendulum enviornment description
-    "The inverted pendulum swingup problem is a classic problem in the control literature. In this version of the problem, the pendulum starts in a random position, and the goal is to swing it up so it stays upright."
-Include the DDPG sudo code in the paper
--->
-There are many different iterations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms on different environments. However, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with Google DeepMind's continuous deep deterministic policy gradient algorithm [21] to learn the inverted pendulum environment [22]. The inverted pendulum is a classic problem in the control literature. More specifically, we will be solving the Pendulum-v0 problem provided by OpenAI. In this version of the problem, the pendulum starts in a random position, and the goal is to swing the pendulum up so it stays upright.
 
-Out steps to solve this problem are as follows:
+-->
+There are many different variations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms on different environments. However, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with Google DeepMind's continuous deep deterministic policy gradient algorithm [21] to learn the inverted pendulum environment [22]. The inverted pendulum is a classic problem in the control literature. More specifically, we will be solving the Pendulum-v0 problem provided by OpenAI. This is a physics simulation of how a pendulum swings from a fixed point. In this version of the problem, a pendulum starts in a random position, and the goal is to swing the pendulum so it stays upright. The state of the pendulum the reinforcement learning algorithm will observe contains the speed the pendulum is traveling and the angle of the pendulum between 0 and 360 degrees. The actions the reinforcement learning algorithm can take toward achieving the goal is both how much force to apply to the pendulum and in what direction. The DDPG algorithm is a good algorithm to learn this problem because of the infinite number of actions it can take. A normal reinforcement learning algorithm like Q learning would not be able to solve this environment because it would be tasked with computing the maximum expected reward for every action, making computation time last forever. But the DDPG algorithm can handle this infinite action space, and is therefore well suited to solve the Pendulum environment.
+
+Our steps to solve this problem are as follows:
 
 <!-- Elaborate on these steps to make the proposed study section about a page??-->
 1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python.
 2. Test the effectiveness of the DDPG algorithm on the pendulum environment and save the results as a baseline. The results we will be recording are the metrics time to compute, number of episodes required for the algorithm to solve the problem, and stability of learning. Stability of learning can be visualized as progress toward solving a goal over time.
-3. Create the Quantum neural network pictured on page 7 using Strawberry Fields in Python from Xanadu.
-4. Create our new proposed algorithm by replacing the neural networks in the DDPG algorithm with our new quantum neural networks. Our proposed algorithm is stated in Algorithm 2.
+3. Create the Quantum neural network pictured on page 6 using Strawberry Fields in Python from Xanadu.
+4. Create our new proposed algorithm by replacing the neural networks in the DDPG algorithm with our new quantum neural networks. An example of such an algorithm is stated in Figure 1.
 5. Test our new hybrid algorithm with classical computers on the pendulum environment and compare our results with our baseline metrics extracted from step 2 by comparing time to compute, number of episodes required, and stability of learning.
 6. If the test is successful, we may try to run our algorithm on a real quantum computer and note the differences in how our algorithm behaves from our simulated quantum computer to the real quantum computer. We would expect that time to compute would be drastically lower on a real quantum computer but stability of learning may be lower due to the instable nature of real quantum computers.
 
 <!-- Talk with Dr. Hu about this algorithm
 1. Are the weights of the new quantum neural network that we update the parameters of each of the gates that make each layer up?
 -->
-\begin{algorithm}
-\caption{Proposed Hybrid Algorithm}
-\begin{algorithmic}
+![Hybrid Computation. This graph shows how classical computers and quantum computers can work together to do powerful computation.](GatePictures/HybridComputer.png)
 
-\STATE Randomly initialize critic quantum network $Q(s,a|\theta^Q)$ and actor quantum network $\mu(s|\theta^\mu)$ with weights $\theta^Q$ and $\theta^\mu$
-\STATE Initialize target quantum network $Q'$ and $\mu'$ with weights $\theta^{Q'} \leftarrow \theta^Q , \theta^{\mu'} \leftarrow^\mu$
-\STATE Initialize replay buffer $R$
-\FOR{ $ episode = 1 , M$}
-\STATE Initialize a random process $N$ for action exploration
-\STATE Receive initial observation state $s_1$
-\FOR{$t = 1, T$}
-\STATE Select action $a_t = \mu(s_t|\theta^\mu) + N_t$ according to the current policy and exploration noise
-\STATE Execute action $a_t$ and observe reward $r_t$ and observe new state $s_t + 1$
-\STATE Store transition $(s_t,a_t,r_t,s_{t+1}$ in $R$
-\STATE Sample a random minibatch of $N$ transitions $(s_i,a_i,r_i,s_{i+1}$ from $R$
-\STATE Set $y_i = r_i + \gamma Q'(s_{i + 1}, \mu'(s_{i+1}|\theta^{\mu'})|\theta^{Q'})$
-\STATE Update critic by minimizing the loss: $L = 1/N \sum{i} (y_i - Q(s_i,a_i | \theta^Q))^2$
-\STATE Update the actor policy using the sampled policy gradient:
-$$ \nabla_{\theta \mu} J \approx 1/N \sum{i} \nabla_a Q(s,a|\theta^Q)|{s=s_i,a=\mu(s_i)} \nabla {\theta\mu} \mu(s|\theta^\mu)|s_i $$
-\STATE Update the target quantum networks:
-$$ \theta^{Q'} \leftarrow \tau \theta^Q + (1 - \tau) \theta^{Q'}$$
-$$ \theta^{\mu'} \leftarrow \tau\theta^\mu + (1 - \tau) \theta^{\mu'}$$
-\ENDFOR
-\ENDFOR
-\end{algorithmic}
-\end{algorithm}
+Here is an example program from Xanadu that uses Python with Xanadu's Pennylane package that simulates hybrid computation of a gradient:
+
+```
+import pennylane as qml
+from pennylane import numpy as np
+
+# create a quantum device
+dev1 = qml.device('default.qubit',wires=1)
+
+@qml.qnode(dev1)
+def circuit(phi1,phi2):
+    # a quantum node
+    qml.RX(phi1, wires=0)
+    qml.RY(phi2, wires=0)
+    return qml.expval.PauliZ(0)
+
+def cost(x, y):
+    # classical processing
+    return np.sin(np.abs(circuit(x,y))) - 1
+
+# calculate the gradient
+dcost = qml.grad(cost, argnum=[0,1])
+```
 
 Our motivation for doing this research is to explore the possibilities of creating hybrid algorithms that utilize both the power of quantum computers with the practicality of classical computers. If successful, this could lead to useful applications of quantum computers. We propose this research to test the effectiveness of such algorithms by combining quantum neural networks with the DDPG algorithm on continuous control problems. We chose the DDPG algorithm based on its proven effectiveness to tackle environments in the continuous realm which can be expanded onto many different kinds of fields, such as self driving cars. We also hope that this research will inspire more researchers to explore the possibilities of these hybrid algorithms.
-
 
 <!-- Explore continuous variable quantum computing as it relates to continuous deep reinforcement learning -->
 
