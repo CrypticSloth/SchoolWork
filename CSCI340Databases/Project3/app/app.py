@@ -30,6 +30,8 @@ script = db.engine.execute('''
 scores = [score[0] for score in script]
 print(scores)
 
+print(pd.DataFrame(scores).to_html())
+
 @app.route('/')
 @app.route('/index')
 def hello_world():
@@ -43,8 +45,15 @@ def login():
         flash('You entered {}!'.format(
             form.script.data))
         user_script = db.engine.execute(form.script.data,db)
-        flash('{}'.format([food[0] for food in user_script]))
+        scores = [score[0] for score in user_script]
+        flash('{}'.format(scores))
+
+        # Show the table
+        table = pd.DataFrame([score for score in db.engine.execute(form.script.data,db)]).to_html()
+        print(table)
+
+        return render_template('login.html', title='stuff', form=form, table=table)
     return render_template('login.html', title='Sign In', form=form)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
