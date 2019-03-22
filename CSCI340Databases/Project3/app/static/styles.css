@@ -27,7 +27,7 @@ table.dataframe, .dataframe th, .dataframe td {
 	text-decoration:none;
 }
 .submitButton:hover {
-	background-color:#00e0e8;
+	background-color:#377ba8;
 }
 .submitButton:active {
 	position:relative;
