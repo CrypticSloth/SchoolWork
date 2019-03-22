@@ -13,3 +13,23 @@ table.dataframe, .dataframe th, .dataframe td {
   margin-bottom: 40px;
   font-size: 0.9em;
 }
+
+.submitButton {
+	background-color:##377ba8;
+	border-radius:24px;
+	border:1px solid #377ba8;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:"Lucida Sans Unicode";
+	font-size:17px;
+	padding:10px 25px;
+	text-decoration:none;
+}
+.submitButton:hover {
+	background-color:#00e0e8;
+}
+.submitButton:active {
+	position:relative;
+	top:1px;
+}
