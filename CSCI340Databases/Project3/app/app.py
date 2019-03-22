@@ -46,13 +46,53 @@ def login():
         user_script = db.engine.execute(form.script.data,db)
         scores = [score[0] for score in user_script]
         flash('{}'.format(scores))
-
         # Show the table
         table = pd.DataFrame([score for score in db.engine.execute(form.script.data,db)]).to_html()
-        print(table)
+        # print(table)
+        return render_template('runscript.html', title='Run Script', form=form, table=table)
+    return render_template('runscript.html', title='Run Script', form=form)
 
-        return render_template('runscript.html', title='stuff', form=form, table=table)
-    return render_template('runscript.html', title='Sign In', form=form)
+@app.route('/askquestion')
+def askquestion():
+# Add a question to the database
+    form = LoginForm()
+    if form.script.data is not None:
+        flash('You entered {}!'.format(
+            form.script.data))
+        user_script = db.engine.execute('insert into questions (question,ownerid) values ('Testing',12)'.format(form.script.data),db)
+        scores = [score[0] for score in user_script]
+        flash('{}'.format(scores))
+        # Show the table
+        table = pd.DataFrame([score for score in db.engine.execute(form.script.data,db)]).to_html()
+        # print(table)
+        return render_template('runscript.html', title='Run Script', form=form, table=table)
+    return render_template('askquestion.html',title="Ask Question",form=form)
+
+@app.route('/questions')
+def questions():
+    # List all of the questions in the database and have filtering options
+    # Ask a question
+    questions = db.engine.execute("select * from questions")
+    table = pd.DataFrame(questions).to_html()
+    return render_template('questions.html',title='Questions',table=table)
+
+@app.route('/answerquestion')
+def answerquestion():
+    # Answer questions
+    print()
+
+@app.route('/aggregateinfo')
+def aggregateinfo():
+    # View some interesting info about the website
+    '''
+    Top scoring questions.
+    Longest unanswered questions.
+    Day with the most questions asked.
+    Day with the most answers given.
+    Most active user.
+    '''
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
