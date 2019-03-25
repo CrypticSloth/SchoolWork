@@ -5,7 +5,13 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
-
+'''
+TODO:
+Get table column names to show up
+Get scripts to run for answering questions
+Get scripts for aggregate information page
+If time, pretty the site up
+'''
 class ScriptForm(FlaskForm):
     script = StringField('Script')
     submit = SubmitField('Run Script')
@@ -14,6 +20,12 @@ class QuestionForm(FlaskForm):
     question = StringField('Question')
     userid = StringField('Userid')
     submit = SubmitField('Post Question')
+
+class AnswerForm(FlaskForm):
+    questionid = StringField('QuestionID to Answer')
+    answer = StringField('Your Answer')
+    userid = StringField('Userid')
+    submit = SubmitField('Post Answer')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -39,8 +51,7 @@ db = SQLAlchemy(app)
 @app.route('/')
 @app.route('/index')
 def hello_world():
-    user = {'username':'Erik'}
-    return render_template('index.html',title='Project 3',user=user)
+    return render_template('index.html',title='Home')
 
 @app.route('/runscript', methods=['GET','POST'])
 def runscript():
@@ -78,7 +89,12 @@ def questions():
 @app.route('/answerquestion')
 def answerquestion():
     # Answer questions
-    print()
+    form = AnswerForm()
+    if form.questionid.data and form.answer.data and form.userid.data is not None:
+        user_script = db.engine.execute('insert into questions (question,ownerid) values(\'{}\',{})'.format(form.question.data, int(form.userid.data),db))
+        flash('Your Answer was posted user {} for question {}'.format(form.userid.data,form.questionid.data))
+        return render_template('answerquestion.html', title='Answer Question', form=form)
+    return render_template('answerquestion.html',title="Answer Question",form=form)
 
 @app.route('/aggregateinfo')
 def aggregateinfo():
@@ -90,6 +106,7 @@ def aggregateinfo():
     Day with the most answers given.
     Most active user.
     '''
+    return render_template('aggregateinfo.html',title="Aggregate Info")
 
 
 
