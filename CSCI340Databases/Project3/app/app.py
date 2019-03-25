@@ -6,7 +6,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 
-class LoginForm(FlaskForm):
+class ScriptForm(FlaskForm):
     script = StringField('Script')
     submit = SubmitField('Run Script')
 
@@ -43,8 +43,8 @@ def hello_world():
     return render_template('index.html',title='Project 3',user=user)
 
 @app.route('/runscript', methods=['GET','POST'])
-def login():
-    form = LoginForm()
+def runscript():
+    form = ScriptForm()
     if form.script.data is not None:
         flash('You entered {}!'.format(
             form.script.data))
