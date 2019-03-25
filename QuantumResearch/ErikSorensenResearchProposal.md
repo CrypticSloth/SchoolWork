@@ -231,13 +231,6 @@ Today, quantum computers are still in their infancy. They are very expensive bec
 
 ## Proposed Study
 
-<!--
-
-TODO:
-
-Fix Bibliography
-
--->
 There are many different variations of popular reinforcement learning algorithms and lots of resources are spent increasing the efficiency and power of these algorithms on different environments. However, there is a lot less research being done to adapt these reinforcement learning techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks with Google DeepMind's continuous deep deterministic policy gradient algorithm [21] to learn the inverted pendulum environment [22]. The inverted pendulum is a classic problem in the control literature. More specifically, we will be solving the Pendulum-v0 problem provided by OpenAI. This is a physics simulation of how a pendulum swings from a fixed point. In this version of the problem, a pendulum starts in a random position, and the goal is to swing the pendulum so it stays upright. The state of the pendulum the reinforcement learning algorithm will observe contains the speed the pendulum is traveling and the angle of the pendulum between 0 and 360 degrees. The actions the reinforcement learning algorithm can take toward achieving the goal is both how much force to apply to the pendulum and in what direction. The DDPG algorithm is a good algorithm to learn this problem because of the infinite number of actions it can take. A normal reinforcement learning algorithm like Q learning would not be able to solve this environment because it would be tasked with computing the maximum expected reward for every action, making computation time last forever. But the DDPG algorithm can handle this infinite action space, and is therefore well suited to solve the Pendulum environment.
 
 Our steps to solve this problem are as follows:
@@ -301,7 +294,7 @@ How to implement. How to test. Explain what this env is (image):
 
 [1]: R. S. Sutton and A. G. Barto, *Reinforcement Learning: An Introduction* (MIT Press, 1998).
 
-[2]: Li Yuxi, *Deep Reinforcement Learning* (????, 2018).
+[2]: Li Yuxi, *Deep Reinforcement Learning* (2018).
 
 [3]: Melo, Francisco S, *Convergence of Q-learning: a simple proof* (ISR).
 
@@ -309,7 +302,7 @@ How to implement. How to test. Explain what this env is (image):
 
 [5]: R. S. Sutton and A. G. Barto, *Reinforcement Learning: An Introduction. Second Edition.* (MIT Press, 1998) pages 161-162.
 
-[6]: V. Mnih, K. Kavukcuoglu, D. Silver, A. Graves, I. Antonoglou, D. Wierstra, and M. Riedmiller, ArXiv Preprint ArXiv:1312.5602 (2013).
+[6]: V. Mnih, K. Kavukcuoglu, D. Silver, A. Graves, I. Antonoglou, D. Wierstra, and M. Riedmiller, *Playing Atari with Deep Reinforcement Learning*, ArXiv Preprint ArXiv:1312.5602 (2013).
 
 [7]: Nvidia, *GPU-Based Deep Learning Inference: A Performance and Power Analysis*, (Nvidia, 2015) <!-- https://www.nvidia.com/content/tegra/embedded-systems/pdf/jetson_tx1_whitepaper.pdf -->
 
@@ -323,17 +316,17 @@ How to implement. How to test. Explain what this env is (image):
 
 [12]: S. Dimitriadis and C. Goumopoulos, *Applying machine learning to extract new knowledge in precision agriculture applications*, (Panhellenic Conference on Informatics, 2008).
 
-[13]: J. Moody and M. Saffell, *Neural Networks*, IEEE Transactions on 12, 875 (2001).
+[13]: J. Moody and M. Saffell, *Neural Networks*, IEEE Transactions on pages 12, 875 (2001).
 
 [14]: Maria Schuld and Nathan Killoran. *Quantum machine learning in feature Hilbert spaces* arXiv:1803.07128 (2018).
 
 [15]: N. Killoran, T. R. Bromley, J. M. Arrazola, M. Schuld, N. Quesada, S. Lloyd, *Continuous-variable quantum neural networks*, arXiv:1806.06871v1 (2018).
 
-[16]: Xanadu, (https://www.xanadu.ai/).
+[16]: Xanadu Quantum Technologies, *Xanadu - Quantum Computing Powered by Light.*, www.xanadu.ai/, sourced on 3/24/19.
 
 [17]: U. L. Andersen, J. S. Neergaard-Nielsen, P. Loock, and A. Furusawa. *Hybrid discrete-and continuous-variable quantum information*. Nature Physics, 11(9):713, (2015).
 
-[18]: K. Moon and S. M. Girvin. *Theory of microwave para-metric down-conversion and  squeezing using circuit QED*. Physical review letters, 95(14):140504, (2005).
+[18]: K. Moon and S. M. Girvin, *Theory of microwave para-metric down-conversion and  squeezing using circuit QED*. Physical review letters, 95(14):140504, (2005).
 
 [19]: Chao  Shen, Zhen Zhang, and L-M  Duan. *Scalable implementation of boson sampling with trapped ions*. Physical review letters, 112(5):050504, (2014).
 
@@ -341,7 +334,7 @@ How to implement. How to test. Explain what this env is (image):
 
 [21]: T. P. Lillicrap, J. J. Hunt, A. Pritzel, N. Heess, T. Erez, Y. Tassa, D. Silver and D. Wierstra, *Continuous Control with Deep Reinforcement Learning*, Google Deepmind London UK, (2016).
 
-[22]: OpenAI, (https://gym.openai.com/envs/Pendulum-v0/).
+[22]: OpenAI, *A Toolkit for Developing and Comparing Reinforcement Learning Algorithms.*, gym.openai.com/envs/Pendulum-v0/, sourced on 3/24/19.
 <!--
 ##### Notes
 Provide lots of examples on how each of these tools has benefited humanity in the past or how they can be used to make it more easily understandable.
