@@ -10,6 +10,11 @@ class LoginForm(FlaskForm):
     script = StringField('Script')
     submit = SubmitField('Run Script')
 
+class QuestionForm(FlaskForm):
+    question = StringField('Question')
+    userid = StringField('Userid')
+    submit = SubmitField('Post Question')
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
@@ -52,20 +57,14 @@ def login():
         return render_template('runscript.html', title='Run Script', form=form, table=table)
     return render_template('runscript.html', title='Run Script', form=form)
 
-@app.route('/askquestion')
+@app.route('/askquestion', methods=['GET','POST'])
 def askquestion():
 # Add a question to the database
-    form = LoginForm()
-    if form.script.data is not None:
-        flash('You entered {}!'.format(
-            form.script.data))
-        user_script = db.engine.execute('insert into questions (question,ownerid) values ('Testing',12)'.format(form.script.data),db)
-        scores = [score[0] for score in user_script]
-        flash('{}'.format(scores))
-        # Show the table
-        table = pd.DataFrame([score for score in db.engine.execute(form.script.data,db)]).to_html()
-        # print(table)
-        return render_template('runscript.html', title='Run Script', form=form, table=table)
+    form = QuestionForm()
+    if form.question.data and form.userid.data is not None:
+        user_script = db.engine.execute('insert into questions (question,ownerid) values(\'{}\',{})'.format(form.question.data, int(form.userid.data),db))
+        flash('Your Question was posted user {}'.format(form.userid.data))
+        return render_template('askquestion.html', title='Ask Question', form=form)
     return render_template('askquestion.html',title="Ask Question",form=form)
 
 @app.route('/questions')
