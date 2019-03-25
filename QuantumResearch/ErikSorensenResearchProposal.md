@@ -6,6 +6,14 @@ geometry: "left=2.4cm,right=2.4cm,top=2cm,bottom=2cm"
 header-includes:
     - \usepackage{algorithm}
     - \usepackage{algorithmic}
+    - \usepackage{fancyhdr}
+    - \usepackage{lipsum}
+    - \pagestyle{fancy}
+    - \fancyhead{}
+    - \fancyfoot{}
+    - \fancyfoot[R]{\thepage}
+    - \renewcommand{\headrulewidth}{0pt}
+    - \renewcommand{\footrulewidth}{0pt}
 output: pdf_document
 ---
 
