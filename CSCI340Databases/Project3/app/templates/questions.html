@@ -2,6 +2,22 @@
 
 {% block content %}
     <h1>Questions</h1>
+    <h2>Filter</h2>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p> Example filtering statements could be: "ownerid = 8", "id = 12".</p>
+        <p>
+            {{ form.filter.label }}<br>
+            {{ form.filter(size=32) }}
+        </p>
+        <p>{{ form.submit_filter(class_="submitButton") }}</p>
+        <p> Search for questions with specific words!</p>
+        <p>
+            {{ form.search.label }}<br>
+            {{ form.search(size=32) }}
+        </p>
+        <p>{{ form.submit_search(class_="submitButton") }}</p>
+    </form>
     <div class=page>
       <h1>Display Table</h1>
         {{ table|safe }}

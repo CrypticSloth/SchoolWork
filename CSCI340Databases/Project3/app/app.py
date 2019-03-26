@@ -5,9 +5,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 '''
 TODO:
-Get table column names to show up   
 Add filtering or search to all questions page
 Get scripts for aggregate information page
 If time, pretty the site up
@@ -26,6 +26,12 @@ class AnswerForm(FlaskForm):
     answer = StringField('Your Answer')
     userid = StringField('Userid')
     submit = SubmitField('Post Answer')
+
+class FilterForm(FlaskForm):
+    filter = StringField('Filter Questions')
+    search = StringField('Search Questions')
+    submit_filter = SubmitField('Submit Filter')
+    submit_search = SubmitField('Submit Search')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -73,18 +79,32 @@ def askquestion():
 # Add a question to the database
     form = QuestionForm()
     if form.question.data and form.userid.data is not None:
-        db.engine.execute('insert into questions (question,ownerid) values(\'{}\',{})'.format(form.question.data, int(form.userid.data),db))
+        db.engine.execute('insert into questions (question,ownerid) values(\'{}\',{})'.format(form.question.data, int(form.userid.data)),db)
         flash('Your Question was posted user {}'.format(form.userid.data))
         return render_template('askquestion.html', title='Ask Question', form=form)
     return render_template('askquestion.html',title="Ask Question",form=form)
 
-@app.route('/questions')
+@app.route('/questions', methods=['GET','POST'])
 def questions():
     # List all of the questions in the database and have filtering options
     # Ask a question
+    form = FilterForm()
+    if form.filter.data is not None and form.submit_filter.data is True:
+        print('filter')
+        questions = db.engine.execute('select * from questions where {}'.format(form.filter.data))
+        table = pd.DataFrame(questions,columns=['id','question','ownerid','creationdate']).to_html()
+        return render_template('questions.html',title='Questions',table=table,form=form)
+    elif form.search.data is not None and form.submit_search.data is True:
+        print('search')
+        query = "select * from questions where question like :search"
+        questions = db.engine.execute(text(query),{'search': '%{}%'.format(form.search.data)})
+        # questions = db.engine.execute('select * from questions where question like \'{}{}{}\''.format('%',form.search.data,'%'))
+        table = pd.DataFrame(questions,columns=['id','question','ownerid','creationdate']).to_html()
+        return render_template('questions.html',title='Questions',table=table,form=form)
+    print('neither')
     questions = db.engine.execute("select * from questions")
-    table = pd.DataFrame(questions).to_html()
-    return render_template('questions.html',title='Questions',table=table)
+    table = pd.DataFrame(questions,columns=['id','question','ownerid','creationdate']).to_html()
+    return render_template('questions.html',title='Questions',table=table,form=form)
 
 @app.route('/answerquestion', methods=['GET','POST'])
 def answerquestion():
