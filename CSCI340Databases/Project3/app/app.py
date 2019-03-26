@@ -127,7 +127,34 @@ def aggregateinfo():
     Day with the most answers given.
     Most active user.
     '''
-    return render_template('aggregateinfo.html',title="Aggregate Info")
+    top_scores = pd.DataFrame(db.engine.execute('select id,upvote - downvote as x from votecounts order by x desc limit 5'),columns=['QuestionID','Score']).to_html()
+
+    longest_unanswered_question = pd.DataFrame(db.engine.execute(
+    '''
+        select id,creationdate::date from questions where id not in (select questionid from answers) order by creationdate asc limit 5
+    '''
+    ),columns=['QuestionID','Creation Date']).to_html()
+
+    day_with_most_questions_asked = pd.DataFrame(db.engine.execute(
+    '''
+        select count(id),creationdate::date as x from questions group by x order by count(id) desc limit 1;
+    '''
+    ),columns=['count','day']).to_html()
+
+    day_with_most_answers_given = pd.DataFrame(db.engine.execute(
+    '''
+        select count(id),creationdate::date as x from answers group by x order by count(id) desc limit 1;
+    '''
+    ),columns=['count','day']).to_html()
+
+    most_active_user = pd.DataFrame(db.engine.execute(
+    '''
+        select ownerid,count(ownerid) from (select id,ownerid from questions union select id,ownerid from answers) as x group by ownerid order by count desc limit 1;
+    '''
+    ),columns=['UserID','count']).to_html()
+
+    tables = [top_scores,longest_unanswered_question,day_with_most_questions_asked,day_with_most_answers_given,most_active_user]
+    return render_template('aggregateinfo.html',title="Aggregate Info",tables = tables)
 
 
 

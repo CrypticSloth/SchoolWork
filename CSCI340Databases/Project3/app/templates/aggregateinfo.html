@@ -2,8 +2,25 @@
 
 {% block content %}
     <h1>Aggregate Info</h1>
+    <h2> Top scoring questions </h2>
     <div class=page>
-      <h1>Display Table</h1>
-        {{ table|safe }}
+        {{ tables[0]|safe }}
     </div>
+    <h2> Longest unanswered questions </h2>
+    <div class=page>
+        {{ tables[1]|safe }}
+    </div>
+    <h2> Day with the most questions asked </h2>
+    <div class=page>
+        {{ tables[2]|safe }}
+    </div>
+    <h2> Day with the most answers given </h2>
+    <div class=page>
+        {{ tables[3]|safe }}
+    </div>
+    <h2> Most active user </h2>
+    <div class=page>
+        {{ tables[4]|safe }}
+    </div>
+
 {% endblock %}
