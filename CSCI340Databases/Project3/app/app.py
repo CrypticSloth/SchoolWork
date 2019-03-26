@@ -7,8 +7,8 @@ from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 '''
 TODO:
-Get table column names to show up
-Get scripts to run for answering questions
+Get table column names to show up   
+Add filtering or search to all questions page
 Get scripts for aggregate information page
 If time, pretty the site up
 '''
@@ -73,7 +73,7 @@ def askquestion():
 # Add a question to the database
     form = QuestionForm()
     if form.question.data and form.userid.data is not None:
-        user_script = db.engine.execute('insert into questions (question,ownerid) values(\'{}\',{})'.format(form.question.data, int(form.userid.data),db))
+        db.engine.execute('insert into questions (question,ownerid) values(\'{}\',{})'.format(form.question.data, int(form.userid.data),db))
         flash('Your Question was posted user {}'.format(form.userid.data))
         return render_template('askquestion.html', title='Ask Question', form=form)
     return render_template('askquestion.html',title="Ask Question",form=form)
@@ -86,14 +86,15 @@ def questions():
     table = pd.DataFrame(questions).to_html()
     return render_template('questions.html',title='Questions',table=table)
 
-@app.route('/answerquestion')
+@app.route('/answerquestion', methods=['GET','POST'])
 def answerquestion():
     # Answer questions
     form = AnswerForm()
     if form.questionid.data and form.answer.data and form.userid.data is not None:
-        user_script = db.engine.execute('insert into questions (question,ownerid) values(\'{}\',{})'.format(form.question.data, int(form.userid.data),db))
+        db.engine.execute('insert into answers (answer,ownerid,questionid) values(\'{}\',{},{})'.format(form.answer.data,int(form.userid.data),int(form.questionid.data)),db)
         flash('Your Answer was posted user {} for question {}'.format(form.userid.data,form.questionid.data))
         return render_template('answerquestion.html', title='Answer Question', form=form)
+    print("test")
     return render_template('answerquestion.html',title="Answer Question",form=form)
 
 @app.route('/aggregateinfo')
