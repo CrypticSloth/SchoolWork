@@ -129,7 +129,7 @@ $$ = \mathbb{E}_{s \textasciitilde p^\pi , a \textasciitilde \pi_\theta} [\nabla
 
 $$ \nabla_\theta J(\theta) = \int_S p^\mu(s)\nabla_a Q^\mu(s,a)\nabla_\theta \mu_\theta(s) | a=\mu_{\theta(s)} \mathrm{d}s $$
 
-$$ = \mathbb{E}_{s \textasciitilde p^\mu} [ \nabla_a Q^\mu(s,a) \nabla_\theta \mu_\theta(s) | a=\mu_{\theta(s)}]. $$
+$$ = \mathbb{E}_{s \texttildelow p^\mu} [ \nabla_a Q^\mu(s,a) \nabla_\theta \mu_\theta(s) | a=\mu_{\theta(s)}]. $$
 
 This formula is actually simpler to compute than Q-Networks because the policy gradient does not depend on the gradient of the action distribution which, like with function approximation, reduces the computation of the performance gradient to a simple approximation. Once we can measure the quality of our policy $\mu$ we can use *gradient ascent* to maximize the expected reward of our performance gradient $\nabla_\theta J(\theta)$. Because of the reduced computation, policy gradient algorithms learning is more stable than Q-Networks. Convergence is also a guarantee, whether it's a local maximum (worst case) or global maximum (best case). The most important factor of policy gradients is that it is now possible to learn in an environment with a continuous action space which makes policy gradients fundamental in learning in continuous spaces.
 
@@ -163,9 +163,9 @@ An extension of these algorithms is *Deep Deterministic Policy Gradients* (DDPG)
 \STATE Store transition $(s_t,a_t,r_t,s_{t+1})$ in $R$
 \STATE Sample a random minibatch of $N$ transitions $(s_i,a_i,r_i,s_{i+1})$ from $R$
 \STATE Set $y_i = r_i + \gamma Q'(s_{i + 1}, \mu'(s_{i+1}|\theta^{\mu'})|\theta^{Q'})$
-\STATE Update critic by minimizing the loss: $L = \frac{1}{N} \sum{i} (y_i - Q(s_i,a_i | \theta^Q))^2$
+\STATE Update critic by minimizing the loss: $L = \frac{1}{N} \sum_{i} (y_i - Q(s_i,a_i | \theta^Q))^2$
 \STATE Update the actor policy using the sampled policy gradient:
-$$ \nabla_{\theta \mu} J \approx \frac{1}{N} \sum{i} \nabla_a Q(s,a|\theta^Q)|{s=s_i,a=\mu(s_i)} \nabla_{\theta\mu} \mu(s|\theta^\mu)|s_i $$
+$$ \nabla_{\theta \mu} J \approx \frac{1}{N} \sum_{i} \nabla_a Q(s,a|\theta^Q)|{s=s_i,a=\mu(s_i)} \nabla_{\theta\mu} \mu(s|\theta^\mu)|s_i $$
 \STATE Update the target networks:
 $$ \theta^{Q'} \leftarrow \tau \theta^Q + (1 - \tau) \theta^{Q'}$$
 $$ \theta^{\mu'} \leftarrow \tau\theta^\mu + (1 - \tau) \theta^{\mu'}$$
@@ -241,7 +241,7 @@ Today, quantum computers are still in their infancy. They incur a large monetary
 
 There are many different variations of popular RL algorithms and lots of resources are spent increasing the efficiency and power of these algorithms on different environments. However, there is a lot less research being done to adapt these RL techniques to run on quantum computers. We plan to investigate the use of continuous variable quantum neural networks in place of the neural networks used in Google DeepMind's continuous deep deterministic policy gradient algorithm [21] to learn the inverted pendulum environment [22]. More specifically, we will be solving the Pendulum-v0 problem provided by OpenAI. The inverted pendulum is a classic problem in the control literature. This is a physics simulation of how a pendulum swings from a fixed point. In this version of the problem, a pendulum starts in a random position, and the goal is to swing the pendulum so it stays upright. The state of the pendulum the RL algorithm will observe contains the speed the pendulum is traveling and the angle of the pendulum between 0 and 360 degrees. The actions the RL algorithm can take toward achieving the goal is both how much force to apply to the pendulum and in what direction. The DDPG algorithm is a good algorithm to learn this problem because of the infinite number of actions it can take. A normal RL algorithm like Q learning would not be able to solve this environment because it would be tasked with computing the maximum expected reward for every action, making computation time last forever. But the DDPG algorithm can handle this infinite action space, and is therefore well suited to solve the Pendulum environment.
 
-Our steps to solve this problem are as follows:
+Our tentative plan is to conduct this research in the following steps:
 
 <!-- Elaborate on these steps to make the proposed study section about a page??-->
 1. Recreate the DDPG algorithm following its pseudo code in Algorithm 1 using Python.
