@@ -1,0 +1,45 @@
+body {
+    background-color: white;
+}
+
+.title {
+    text-align: center;
+}
+
+.gameBanner {
+    /* need to center this */
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    white-space: nowrap;
+    font-family: arial,helvetica,sans-serif;
+}
+
+.gameBanner li {
+    display: inline;
+}
+
+.gameBanner li a {
+    padding: 0.2em 1em;
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+    float: left;
+}
+
+.gameBanner, a:hover {
+    color:black;
+}
+
+/* #dota {
+    color:red;
+}
+#overwatch {
+    color:yellow;
+}
+#lol {
+    color:blue;
+}
+#rl {
+    color:lightgray;
+} */
