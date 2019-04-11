@@ -4,10 +4,13 @@
 #75596A
 #9F6E71
 #FAD6CB
+
+rgb(25, 32, 35)
+rgb(28, 33, 39)
 */
 
 body {
-    background-color: #1E202F;
+    background-color: rgb(46, 45, 69);
     color:#FAD6CB;
 }
 
