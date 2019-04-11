@@ -16,16 +16,41 @@ body {
 }
 
 
+.heading {
+    height: 40vh;
+    min-height: 40vh;
+    background: url('imgs/stadium2.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
 
-.title {
+.heading-text {
+    margin: auto;
+    color: #FFF;
+    text-align: center;
+    position: relative;
+}
+
+h1 {
+    color: rgb(0,0,0);
+    font-family: 'Montserrat', sans-serif;
+    font-weight:200;
+    font-size:80px;
+}
+
+/* .title {
     background-color: #75596A;
     text-align: center;
     color: #FAD6CB;
     padding: 1em;
-}
-.title h1{
+} */
+
+/* .title h1{
     margin: 0em;
-}
+} */
 
 .gameBanner {
     list-style-type: none;
