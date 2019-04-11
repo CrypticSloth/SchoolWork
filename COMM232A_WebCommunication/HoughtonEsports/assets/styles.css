@@ -1,9 +1,20 @@
+/* colors:
+#1E202F
+#494044
+#75596A
+#9F6E71
+#FAD6CB
+*/
+
 body {
-    background-color: white;
+    background-color: #1E202F;
+    color:#FAD6CB;
 }
 
 .title {
+    background-color: #75596A;
     text-align: center;
+    color: #FAD6CB;
 }
 
 .gameBanner {
@@ -13,25 +24,27 @@ body {
     list-style-type: none;
     white-space: nowrap;
     font-family: arial,helvetica,sans-serif;
+    display: flex;
+    justify-content: center;
+    background-color: #9F6E71;
 }
 
 .gameBanner li {
     display: inline;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .gameBanner li a {
-    padding: 0.2em 1em;
+    padding: 0.2em 2em;
     text-decoration: none;
     letter-spacing: 2px;
     text-transform: capitalize;
     float: left;
 }
 
-.gameBanner, a:hover {
-    color:black;
-}
-
-/* #dota {
+/* Define the colors of the links */
+#dota {
     color:red;
 }
 #overwatch {
@@ -42,4 +55,24 @@ body {
 }
 #rl {
     color:lightgray;
-} */
+}
+
+#dota:hover, #lol:hover, #overwatch:hover, #rl:hover {
+    color:#1E202F;
+}
+
+.content {
+    width:800px;
+    text-align: left;
+    border: 0px;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.content p {
+    font-size: 1.1em;
+}
+
+.content h2 {
+    font-size: 2em;
+}
