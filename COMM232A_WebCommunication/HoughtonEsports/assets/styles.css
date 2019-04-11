@@ -12,18 +12,22 @@ rgb(28, 33, 39)
 body {
     background-color: rgb(46, 45, 69);
     color:#FAD6CB;
+    margin:0;
 }
+
+
 
 .title {
     background-color: #75596A;
     text-align: center;
     color: #FAD6CB;
+    padding: 1em;
+}
+.title h1{
+    margin: 0em;
 }
 
 .gameBanner {
-    /* need to center this */
-    margin: 0;
-    padding: 0;
     list-style-type: none;
     white-space: nowrap;
     font-family: arial,helvetica,sans-serif;
@@ -38,12 +42,19 @@ body {
     vertical-align: middle;
 }
 
+.gameBanner img{
+    vertical-align: middle;
+    padding: 0em 0.3em;
+}
+
 .gameBanner li a {
-    padding: 0.2em 2em;
+    margin:0.2em 1.2em;
+    padding: 0;
     text-decoration: none;
     letter-spacing: 2px;
-    text-transform: capitalize;
+    text-transform: uppercase;
     float: left;
+    vertical-align: middle;
 }
 
 /* Define the colors of the links */
@@ -78,4 +89,19 @@ body {
 
 .content h2 {
     font-size: 2em;
+}
+
+footer {
+    position: fixed;
+    width: 100%;
+    bottom:0;
+    background-color: #75596A;
+}
+
+#footer_content {
+    width:800px;
+    text-align: left;
+    border: 0px;
+    padding: 0;
+    margin: 0 auto;
 }
