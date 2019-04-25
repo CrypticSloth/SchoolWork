@@ -13,13 +13,28 @@ body {
     background-color: rgb(46, 45, 69);
     color:#FAD6CB;
     margin:0;
+    font-family: Lato, sans-serif;
+    letter-spacing: .5px;
+    font-weight: 400;
+    font-size: 16px;
 }
 
 
-.heading {
+.heading_home {
     height: 40vh;
     min-height: 40vh;
     background: url('imgs/stadium2.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
+.heading_ow {
+    height: 40vh;
+    min-height: 40vh;
+    background: url('imgs/overwatch/overwatch0.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -41,6 +56,11 @@ h1 {
     font-size:80px;
 }
 
+h2 {
+    font-family: Lato, sans-serif;
+    font-weight: 300;
+    font-size: 2em;
+}
 /* .title {
     background-color: #75596A;
     text-align: center;
@@ -100,7 +120,7 @@ h1 {
     color:#1E202F;
 }
 
-.content {
+/* .content {
     width:800px;
     text-align: left;
     border: 0px;
@@ -114,13 +134,34 @@ h1 {
 
 .content h2 {
     font-size: 2em;
+} */
+
+.content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width:100vw;
+    height: 100vw;
+}
+
+.grid-item {
+    margin-right: 50px;
+}
+
+.grid-item h2  {
+    text-align: center;
+    border-bottom-style: solid;
+    border-width: thin;
 }
 
 footer {
-    position: fixed;
     width: 100%;
     bottom:0;
     background-color: #75596A;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 #footer_content {
