@@ -104,7 +104,7 @@ h2 {
 
 /* Define the colors of the links */
 #home {
-    color:inherit;
+    color: inherit;
 }
 #dota {
     color:red;
@@ -124,22 +124,6 @@ h2 {
 }
 
 .content {
-    width:800px;
-    text-align: left;
-    border: 0px;
-    padding: 0;
-    margin: 0 auto;
-}
-
-.content p {
-    font-size: 1.1em;
-}
-
-.content h2 {
-    font-size: 2em;
-}
-
-/* .content {
     margin-top: 50px;
     display: grid;
     grid-template-columns: 50% 50%;
@@ -148,22 +132,25 @@ h2 {
 }
 
 .grid-item {
-    margin-right: 50px;
-    margin-left: 50px;
+    margin: 0;
 }
 
-.grid-item h2  {
+.grid-item-text {
+    margin-left: 50px;
+    margin-right: 50px;
+    vertical-align: middle;
+}
+
+.grid-item-text h2  {
     text-align: center;
     border-bottom-style: solid;
     border-width: thin;
-} */
+}
 
-/* TODO: Fix footer to be on bottom with no margin */
 footer {
     width: 100%;
-    /* bottom:0; */
+    bottom:0;
     background-color: #75596A;
-    margin-bottom: 0;
 }
 
 a {
