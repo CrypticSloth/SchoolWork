@@ -27,9 +27,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h1 class="header">The Quiz.</h1>
-                        <p>Welcome to the The Quiz.</p>
-                        <p>Go to <a href="/settings">The Settings.</a></p>
+                        <h1 class="header">The Settings.</h1>
+                        <p>Welcome to the The Settings.</p>
+                        <p>Go to: <a href="/">The Quiz.</a></p>
                     </div>
                 </div>
             </div>
@@ -38,20 +38,28 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m8">
-                    <h4>Questions:</h4>
+                    <h4>Machines:</h4>
+                    <form method="POST">
                     <ul>
-                        {% for q in questions %}
-                        <li><a href="{{ q[0].replace(':','/') }}">{{ q[1] }}</a></li>
+                        {% for m in machines %}
+                        <li><label>
+                                <input type='radio' id='{{ m }}' name='machine' value='{{ m }}'
+                                 {% if m == machine %}checked{% endif %}>
+                                <span><a href="http://{{ m }}/">{{ m }}</a></span>
+                            </label>
+                        </li>
                         {% endfor %}
                     </ul>
+                    </form>
+                    <p>{{ message }}</p>
                 </div>
             </div>
         </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('input#input_text, textarea#textarea2').characterCounter();
+        $('input[type=radio]').on('change', function() {
+            $(this).closest("form").submit();
         });
     </script>
 </body>
