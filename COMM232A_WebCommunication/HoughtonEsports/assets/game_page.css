@@ -124,7 +124,7 @@ h2 {
 }
 
 .content {
-    margin-top: 50px;
+    /* margin-top: 50px; */
     display: grid;
     grid-template-columns: 50% 50%;
     width:100%;
