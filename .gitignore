@@ -3,5 +3,6 @@
 *.pyc
 *.ipynb_checkpoints/
 *private.txt
-*.jpg
+/DSCI295ImageData/Project2_OCR/*_frames
+/DSCI295ImageData/Project2_OCR/*_scores
 *.mp4
