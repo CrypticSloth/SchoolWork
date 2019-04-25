@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Key&ndash;Value Store!</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo">KV</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="header">Key&ndash;Value store.</h1>
+                        <p>Welcome to the Key&ndash;Value store.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m8">
+                    <h4>Get:</h4>
+                    <form id="get_form" onsubmit="return get_click()">
+                        <div class="input-field col s6">
+                            <input type="text" name="get_key" id="get_key" class="validate" required>
+                            <label for="get_key">Key</label>
+                        </div>
+                        <br>
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8">
+                    <div id="get_result">                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8">
+                    <h4>Put:</h4>
+                    <form id="put_form" onsubmit="return put_click()">
+                        <div class="input-field col s6">
+                            <input type="text" name="put_key" id="put_key" class="validate" required>
+                            <label for="put_key">Key</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" name="put_key" id="put_value" class="validate">
+                            <label for="put_value">Value</label>
+                        </div>
+                        <br>
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8">
+                    <div id="put_result">                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8">
+                    <h4>Peers:</h4>
+                    <ul>
+                        {% for m in machines %}
+                        <li>{{ m }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('input#input_text, textarea#textarea2').characterCounter();
+        });
+        update_click = function () {
+            var key = $('#update_key').val();
+            var value = $('#update_value').val();
+            console.log("Update", key, value);
+            opts = { method: 'PUT',
+                     headers: { "Content-Type": "application/json" },
+                     body: JSON.stringify({ "key": key, "value": value })
+                   };
+            fetch("/put", opts).then(function(response) {
+                if(response.ok) {
+                    return response.text();
+                }
+                throw new Error(response.statusText);
+            }).then(function(t) {
+                $('#get_result').text(t);
+                
+            }).catch(function(error) {
+                $('#get_result').text('Error: ' + error.message);
+            });
+            return false;
+        };
+        delete_click = function () {
+            var key = $('#update_key').val();
+            console.log("Delete", key);
+            opts = { method: 'DELETE',
+                     headers: { "Content-Type": "application/json" },
+                     body: JSON.stringify({ "key": key })
+                   };
+            fetch("/delete", opts).then(function(response) {
+                if(response.ok) {
+                    return response.text();
+                }
+                throw new Error(response.statusText);
+            }).then(function(t) {
+                $('#get_result').text(t);
+            }).catch(function(error) {
+                $('#get_result').text('Error: ' + error.message);
+            });
+            return false;
+        };
+        get_click = function () {
+            $("#get_form :input").prop("disabled", true);
+            $('#get_result').text("");
+            var key = $('#get_key').val();
+            var url = new URL("/get", location.href);
+            url.searchParams.append("key", key);
+            console.log(url);
+            opts = { method: 'GET' };
+            fetch(url, opts).then(function(response) {
+                if(response.ok) {
+                    return response.text();
+                }
+                throw new Error(response.statusText);
+            }).then(function(t) {
+                var f = document.createElement("form");
+                var ik = document.createElement("input");
+                var iv = document.createElement("input");
+                var lv = document.createElement("label");
+                var b = document.createElement("button");
+                var field = document.createElement("div");
+                ik.name = "update_key";
+                ik.hidden = true;
+                ik.value = key;
+                ik.id = "update_key";
+                iv.name = "update_value";
+                iv.value = t;
+                iv.id = "update_value";
+                lv.for = "update_value";
+                lv.text = "Value"
+                field.appendChild(iv);
+                field.appendChild(lv);
+                b.type = "submit";
+                b.name = "action";
+                var icon = document.createElement("i");
+                icon.innerText = "send";
+                b.innerText = "Update";
+                b.appendChild(icon);
+                f.onsubmit = update_click;
+                f.appendChild(ik);
+                f.appendChild(field);
+                f.appendChild(document.createElement("br"));
+                f.appendChild(b);
+                $('#get_result').append(f);
+                $(b).addClass("btn waves-effect waves-light");
+                $(icon).addClass("material-icons right");
+                $(field).addClass("input-field col s6");                
+
+                var bdel = document.createElement("a");
+                bdel.onclick = delete_click;
+                icon = document.createElement("i");
+                icon.innerText = "delete_forever";
+                bdel.innerText = "Delete";
+                bdel.appendChild(icon);
+                $('#get_result').append(document.createElement("br"));
+                $('#get_result').append(bdel);
+                $(bdel).addClass("btn waves-effect waves-light red");
+                $(icon).addClass("material-icons right");
+
+                $("#get_form :input").prop("disabled", false);
+            }).catch(function(error) {
+                $('#get_result').text('Error: ' + error.message);
+                $("#get_form :input").prop("disabled", false);
+            });
+            return false;
+        };
+        put_click = function () {
+            var key = $("#put_key").val();
+            var value = $("#put_value").val();
+            opts = { method: 'PUT',
+                     headers: { "Content-Type": "application/json" },
+                     body: JSON.stringify({ "key": key, "value": value })
+                   };
+            $("#put_form :input").prop("disabled", true);
+            $('#put_result').text("");
+            fetch("/put", opts).then(function(response) {
+                if(response.ok) {
+                    return response.text();
+                }
+                throw new Error(response.statusText);
+            }).then(function(t) {
+                $('#put_result').text(t);
+                $("#put_form :input").prop("disabled", false);
+                $('#put_form').trigger("reset");
+            }).catch(function(error) {
+                $('#put_result').text('Error: ' + error.message);
+                $("#put_form :input").prop("disabled", false);
+            });
+            return false;
+        };
+    </script>
+</body>
+
+</html>

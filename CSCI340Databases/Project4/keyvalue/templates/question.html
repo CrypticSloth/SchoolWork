@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Bozz&ndash;food quiz!</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo">KV</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="header">Question.</h1>
+                        <p>Welcome to this question.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m8">
+                    <h4>Title: {{title}}</h4>
+                    <table>
+                        <tr><th>Option</th></tr>
+                        {% for o in options %}
+                        <tr><td>{{ o[1] }}</td>
+                            <td>
+                                <form>
+                                    <input hidden name='opt' value='{{ o[0] }}'>
+                                    <button>choose</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </ul>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('input#input_text, textarea#textarea2').characterCounter();
+        });
+    </script>
+</body>
+
+</html>
