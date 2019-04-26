@@ -44,7 +44,7 @@ def get():
         args = request.args
     elif request.method == 'POST':
         args = request.get_json()
-    
+
     if not "key" in args:
         abort(404)
 
@@ -63,7 +63,7 @@ def get_prefix():
         args = request.args
     elif request.method == 'POST':
         args = request.get_json()
-    
+
     if not "key" in args:
         abort(404)
 
@@ -92,3 +92,6 @@ def delete():
     if key in store:
         del store[key]
     return "Deleted!"
+
+if __name__ == "__main__":
+    app.run()

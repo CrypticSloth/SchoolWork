@@ -61,3 +61,5 @@ def question(i):
     print(options)
     return render_template("question.html", title=title.decode('utf-8'), options=options.items())
 
+if __name__ == "__main__":
+    app.run()
