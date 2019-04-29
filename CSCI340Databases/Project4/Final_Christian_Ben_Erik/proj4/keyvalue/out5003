@@ -1,0 +1,143 @@
+ * Serving Flask app "store.py" (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on http://0.0.0.0:5003/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 188-061-016
+127.0.0.1 - - [29/Apr/2019 19:00:38] "[37mGET / HTTP/1.1[0m" 200 -
+127.0.0.1 - - [29/Apr/2019 19:01:01] "[1m[35mPUT /put_remote HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/mnt/c/users/ben/documents/dbses/proj4/keyvalue/store.py", line 146, in put_remote
+    if (value < store[key]):
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/pygtrie.py", line 681, in __getitem__
+    node, _ = self._get_node(key_or_slice)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/pygtrie.py", line 411, in _get_node
+    raise KeyError(key)
+KeyError: 'key'
+127.0.0.1 - - [29/Apr/2019 19:01:08] "[1m[35mPUT /put_remote HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/mnt/c/users/ben/documents/dbses/proj4/keyvalue/store.py", line 146, in put_remote
+    if (value < store[key]):
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/pygtrie.py", line 681, in __getitem__
+    node, _ = self._get_node(key_or_slice)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/pygtrie.py", line 411, in _get_node
+    raise KeyError(key)
+KeyError: 'key'
+ * Detected change in '/mnt/c/users/ben/documents/dbses/proj4/keyvalue/store.py', reloading
+Put: key apricots 1556578861.8253841
+Put: key banana 1556578868.1496525
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 188-061-016
+ * Detected change in '/mnt/c/users/ben/documents/dbses/proj4/keyvalue/store.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 188-061-016
+127.0.0.1 - - [29/Apr/2019 19:03:32] "[1m[35mPUT /put_remote HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/mnt/c/users/ben/documents/dbses/proj4/keyvalue/store.py", line 147, in put_remote
+    if (value < store[key]):
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/pygtrie.py", line 681, in __getitem__
+    node, _ = self._get_node(key_or_slice)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/pygtrie.py", line 411, in _get_node
+    raise KeyError(key)
+KeyError: 'a'
+ * Detected change in '/mnt/c/users/ben/documents/dbses/proj4/keyvalue/store.py', reloading
+Put: a applebees 1556579012.3065758
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 188-061-016
+ * Detected change in '/mnt/c/users/ben/documents/dbses/proj4/keyvalue/store.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 188-061-016
+127.0.0.1 - - [29/Apr/2019 19:07:58] "[1m[35mPUT /put_remote HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1816, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1831, in finalize_request
+    response = self.make_response(rv)
+  File "/home/younix_user/pyth/lib/python3.6/site-packages/flask/app.py", line 1957, in make_response
+    'The view function did not return a valid response. The'
+TypeError: The view function did not return a valid response. The function either returned None or ended without a return statement.
+ * Detected change in '/mnt/c/users/ben/documents/dbses/proj4/keyvalue/store.py', reloading
+Put: a e 1556579278.3724809
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 188-061-016
+127.0.0.1 - - [29/Apr/2019 19:12:31] "[37mPUT /put_remote HTTP/1.1[0m" 200 -
+127.0.0.1 - - [29/Apr/2019 19:12:48] "[37mPUT /put_remote HTTP/1.1[0m" 200 -
+127.0.0.1 - - [29/Apr/2019 19:13:34] "[37mPUT /put_remote HTTP/1.1[0m" 200 -
+127.0.0.1 - - [29/Apr/2019 19:13:35] "[37mPUT /put HTTP/1.1[0m" 200 -
+127.0.0.1 - - [29/Apr/2019 19:14:04] "[37mGET /get?key=apple HTTP/1.1[0m" 200 -
