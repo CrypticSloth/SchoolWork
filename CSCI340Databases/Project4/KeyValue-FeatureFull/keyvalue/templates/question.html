@@ -1,0 +1,29 @@
+{% extends 'quiz-base.html' %}
+
+{% block header %}
+    <h1 class="header">Question.</h1>
+    <a href="/edit/{{ question }}" class="btn waves-effect waves-light blue">
+        Edit<i class="material-icons right">edit</i>
+    </a>
+    <p>Welcome {{ user['name'] }}.</p>
+{% endblock %}
+
+{% block content %}
+    <h4>{{title}}</h4>
+    <form method="POST">
+        <input type="hidden" name="user" value="{{ userid }}" class="userid-field">
+        <input type="hidden" name="question" value="{{ question }}">
+        <ul>
+        {% for o in options %}
+            <li>
+                <label>
+                    <input type='radio' name='opt' id='{{ o[0] }}' value='{{ o[1] }}'
+                        {% if o[1] == user_option %}checked{% endif %}>
+                    <span>{{ o[1] }}</span>
+                </label>
+            </li>
+        {% endfor %}
+        </ul>
+    </form>
+    <p>{{ message }}</p>
+{% endblock %}

@@ -62,4 +62,4 @@ def question(i):
     return render_template("question.html", title=title.decode('utf-8'), options=options.items())
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=5000)

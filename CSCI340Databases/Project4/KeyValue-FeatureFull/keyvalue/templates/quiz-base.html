@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Bozz&ndash;food quiz!</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">Quiz</a>
+                    <ul id="nav-mobile" class="right">
+                    <li>
+                        <a href="#!" class="dropdown-trigger menu-dropdown" data-target="drop-login"
+                            style="width: 200px">
+                            User ID
+                            <i class="material-icons right">account_circle</i>
+                        </a>
+                        <ul id="drop-login" class="dropdown-content container section" style="overflow:hidden; padding-left: 20px; padding-right: 20px">
+                            <li>
+                                <form action="#" onsubmit="return login_click(this);">
+                                    <div class="input-field">
+                                        <input id="login" class="validate userid-field" name="userid" type="text" required>
+                                        <label for="login">User Id</label>
+                                        <button class="btn waves-effect waves-light" type="submit" name="action">
+                                            <i class="material-icons left" style="margin-top: -12px">directions_walk</i>
+                                            Login
+                                        </button>
+                                    </div>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        {% block header %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m8">
+                   {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        login_click = function(form){
+           v = $(form).find('input').eq(0).val();
+           localStorage.setItem('userid', v);
+           document.cookie = 'userid=' + uId;
+           $('.userid-field').val(v);
+           return false;
+       };
+       $(document).ready(function(){
+          $('.dropdown-trigger').dropdown({ coverTrigger: false, closeOnClick: false });
+          uId = localStorage.getItem('userid');
+          if (uId != null) {
+              $('.userid-field').val(uId);
+              M.updateTextFields();
+              document.cookie = 'userid=' + uId;
+          }
+        });
+        $('input[type=radio]').on('change', function() {
+            $(this).closest("form").submit();
+        });
+    </script>
+</body>
+
+</html>

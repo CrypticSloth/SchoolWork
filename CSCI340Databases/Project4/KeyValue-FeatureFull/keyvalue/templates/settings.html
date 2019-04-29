@@ -1,0 +1,25 @@
+{% extends 'quiz-base.html' %}
+
+{% block header %}
+    <h1 class="header">The Settings.</h1>
+    <p>Welcome to the The Settings.</p>
+    <p>Go to: <a href="/">The Quiz.</a></p>
+    <p>Go to: <a href="/users">The Users.</a></p>
+{% endblock %}
+
+{% block content %}
+    <h4>Machines:</h4>
+    <form method="POST">
+    <ul>
+        {% for m in machines %}
+        <li><label>
+                <input type='radio' id='{{ m }}' name='machine' value='{{ m }}'
+                    {% if m == machine %}checked{% endif %}>
+                <span><a href="http://{{ m }}/">{{ m }}</a></span>
+            </label>
+        </li>
+        {% endfor %}
+    </ul>
+    </form>
+    <p>{{ message }}</p>
+{% endblock %}

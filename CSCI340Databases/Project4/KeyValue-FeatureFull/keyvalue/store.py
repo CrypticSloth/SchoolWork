@@ -25,11 +25,11 @@ store["question:1"]  = "Favorite Veggie"
 
 store["option:1:0"] = "Carrot"
 store["option:1:1"] = "Broccoli"
-store["option:1:2"] = "Peppers"
+store["option:1:2"] = "Pepper"
 
 store["user:1"]     = ryan
 
-store["answer:0"]   = json.dumps({'userid': 1, 'questionid': 1, 'optionid': 1})
+store["answer:1:1"] = "Pepper"
 
 @app.route("/")
 def hello():
@@ -49,7 +49,7 @@ def get():
         abort(404)
 
     # Give a slow response:
-    time.sleep(1)
+    # time.sleep(1)
     key = args["key"]
     print("Post:", key)
     if not key in store:
@@ -68,7 +68,7 @@ def get_prefix():
         abort(404)
 
     # Give a slow response:
-    time.sleep(1)
+    # time.sleep(1)
     key = args["key"]
     print("Post:", key)
     if not store.has_subtrie(key):

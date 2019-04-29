@@ -1,0 +1,17 @@
+{% extends 'quiz-base.html' %}
+
+{% block header %}
+    <h1 class="header">The Quiz.</h1>
+    <p>Welcome to the The Quiz.</p>
+    <p>Go to <a href="/settings">The Settings.</a></p>
+{% endblock %}
+
+{% block content %}
+    <h4>Questions:</h4>
+    <ul>
+        {% for q in questions %}
+        <li><a href="{{ q[0].replace(':','/') }}">{{ q[1] }}</a></li>
+        {% endfor %}
+    </ul>
+    <p>{{ message }}</p>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'quiz-base.html' %}
+
+{% block header %}
+    <h1 class="header">Edit Question.</h1>
+{% endblock %}
+
+{% block content %}
+    <h4>{{title}}</h4>
+    <div class="section">
+        <form method="POST">
+            <div class="input-field col s6">
+                <input type="text" name="title" id="title" class="validate" required="" value="{{ title }}">
+                <label for="title">Title</label>
+            </div>
+            <br>
+            <button type="submit" name="action" class="btn waves-effect waves-light">
+                Update<i class="material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+    <div class="section">
+        <ul>
+        {% for o in options %}
+            <li>
+                <div class="row">
+                <form method="POST">
+                    <div class="input-field col s6">
+                        <input type="hidden" name="optionid" id="id_{{ o[0] }}" value="{{ o[0] }}">
+                        <input type="text" name="option" id="{{ o[0] }}" class="validate" required="" value="{{ o[1] }}">
+                        <label for="title">Option</label>
+                    </div>
+                    <div class="input-field col s3">
+                        <button type="submit" name="action" class="btn waves-effect waves-light">
+                            Update<i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </form>
+                <div class="input-field col s3">
+                    <form method="POST">
+                        <input type="hidden" name="delete" value="{{ o[0] }}">
+                        <button type="submit" name="action" class="btn waves-effect waves-light red">
+                            delete<i class="material-icons right">clear</i>
+                        </button>
+                    </form>
+                </div>
+                </div>
+            </li>
+        {% endfor %}
+            <li>
+                <div class="row">
+                <form method="POST">
+                    <div class="input-field col s6">
+                        <input type="text" name="new_option" id="new" class="validate" required="" value="">
+                        <label for="new">New Option</label>
+                    </div>
+                    <br>
+                    <button type="submit" name="action" class="btn waves-effect waves-light green">
+                        New<i class="material-icons right">add_circle</i>
+                    </button>
+                </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <p>{{ message }}</p>
+{% endblock %}
