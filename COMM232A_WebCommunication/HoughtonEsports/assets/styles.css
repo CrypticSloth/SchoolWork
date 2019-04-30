@@ -19,6 +19,9 @@ body {
     font-size: 16px;
 }
 
+/* html,body {
+    height:100%
+} */
 
 .heading_home {
     height: 40vh;
@@ -107,7 +110,7 @@ h2 {
     color:inherit;
 }
 #dota {
-    color:red;
+    color:#751c1c;
 }
 #overwatch {
     color:yellow;
@@ -161,9 +164,9 @@ h2 {
 /* TODO: Fix footer to be on bottom with no margin */
 footer {
     width: 100%;
-    /* bottom:0; */
+    bottom:0;
     background-color: #75596A;
-    margin-bottom: 0;
+    margin: 0;
 }
 
 a {
@@ -175,6 +178,6 @@ a {
     width:800px;
     text-align: left;
     border: 0px;
-    padding: 0;
+    padding: 20px;
     margin: 0 auto;
 }

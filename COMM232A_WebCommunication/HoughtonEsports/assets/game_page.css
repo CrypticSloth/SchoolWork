@@ -42,6 +42,39 @@ body {
     justify-content: center;
 }
 
+.heading_lol {
+    height: 40vh;
+    min-height: 40vh;
+    background: url('imgs/LoL/lol_0.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
+.heading_dota2 {
+    height: 40vh;
+    min-height: 40vh;
+    background: url('imgs/dota2/dota_0.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
+.heading_rl {
+    height: 40vh;
+    min-height: 40vh;
+    background: url('imgs/RocketLeague/RL_0.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
 .heading-text {
     margin: auto;
     color: #FFF;
@@ -107,7 +140,7 @@ h2 {
     color: inherit;
 }
 #dota {
-    color:red;
+    color:#751c1c;
 }
 #overwatch {
     color:yellow;
@@ -134,6 +167,9 @@ h2 {
     margin: 0;
 }
 
+.grid-item img {
+    width: 100%
+}
 .grid-item-text {
     margin-left: 50px;
     margin-right: 50px;
@@ -152,6 +188,7 @@ footer {
     width: 100%;
     bottom:0;
     background-color: #75596A;
+    margin: 0;
 }
 
 a {
@@ -163,6 +200,6 @@ a {
     width:800px;
     text-align: left;
     border: 0px;
-    padding: 0;
+    padding: 20px;
     margin: 0 auto;
 }
