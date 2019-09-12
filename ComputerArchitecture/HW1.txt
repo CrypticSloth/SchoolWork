@@ -1,0 +1,50 @@
+Erik Sorensen
+Homework 1 - 9.13.19
+    From reading 2.1 - 2.7
+
+2.1
+
+    sub t0, h, 5
+    add f, t0, g
+
+2.2
+
+    f = f + g + h + i
+
+2.4 ?
+
+    A[f] = f * 8
+    B[g] = g * 8
+    f = A[f]
+    J = f + 8
+    f = J[0] + A[f] + B[0]
+
+2.7
+
+    ld t0, x29(x10)
+    ld t1, x28(x10)
+    add t2, t0, t1
+    sd 8(x11), t2
+
+2.29
+
+    sd 1(x1), n
+    ld t0, 1(x1)
+
+    bne t0,0,Else
+    sd 0(x1), 0
+    Else: bne t0,1 Else:
+    sd 0(x1), 1
+    Else:
+    sub t1, t0, 1
+    sub t2, t0, 2
+    add t3, t1, t2
+    sd 0(x1), t3
+    Exit:
+
+I am unable to do problem 2.29 thoroughly because I do not know how to handle a function that calls itself. Is it a while loop? Is it a for loop?
+I also do not know how to keep the "stack point aligned on a multiple of 16". So I probably did not do that in my solution. However, I did give it
+my best shot with the knowledge that I had from the book reading. The way that I thought about it was to implement the if else statements into a nested
+if else statement (by basically doing it twice), storing the variable n into the registry, and then loading it into the temp variable t0, then I went
+through the if else statements with bne command like they did in the book and whenever it said return I saved whatever it was returning into the 0(x1) registry
+spot. I feel like this is probably totally wrong but this is my best shot at this problem. 
