@@ -1,0 +1,13 @@
+display/i $pc
+set $i=0
+break count_primes
+run
+while ($i<100000)
+  si
+  set $i = $i + 1
+  if done == 1
+    set $i = 200000
+  end
+end
+continue
+quit
