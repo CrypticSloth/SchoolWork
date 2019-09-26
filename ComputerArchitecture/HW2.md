@@ -67,20 +67,21 @@ fib:
 
 #### 2.9
 
-| cmd | OP | rs1 | rd |
-| -- | -- | --  | -- |
-| addi | 0010011  |    |   |
-| sd   |   |   |   |
-| ld   |   |   |   |
-| add   |   |   |   |
+| cmd | OP | rs1 | rd | imm/rs2 | funct3/funct7 |
+| -- | -- | --  | -- | -- | -- |
+| addi | 0010011  | x10 | x30, x31  | 8,0 | 000|
+| sd   | 0100011  | x30  | x31  | 0 | 011 |
+| ld   | 0000011  | x30  | x30  | 0 | 011 |
+| add  | 0110011  | x30  | x5  | x31 | 0000000 |
 
 
 #### 2.12
 
 0000 0000 0001 0000 1000 0000 1011 0011 into instruction type and assembly language
 
-?????
+0000000 00001 00001 000 00001 0110011
 
+add x2, 2, 2
 ### Analysis
 
 #### 2.39.2
@@ -95,4 +96,4 @@ CPU clock cycles = instructions for a program * average clock cycles per instruc
 
 **2.6** = (0.7 * 2) + (0.1 * 6) + (0.2 * 3)
 
-This program will take an average of 2.6 CPI. 
+This program will take an average of 2.6 CPI.
