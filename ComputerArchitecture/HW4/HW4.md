@@ -112,15 +112,42 @@ However, if we are not doing operations that require a lot of registers, then it
 
 ### Pipelining	4.22.1, 4.22.2, 4.22.3, 4.22.4, and 4.25.1, 4.25.2
 
+```
+sd      x29, 12(x16)
+ld      x29, 8(x16)
+sub     x17, x15, x14
+beqz    x17, label
+addi    x15, x11, x14
+subi    x15, x30, x14
+```
+
 #### 4.22.1. Draw a pipeline diagram to show were the code above will stall.
+
+![4.22.1](4.22.1.jpg)
 
 #### 4.22.2. In general, is it possible to reduce the number of stalls/ NOPs resulting from this structural hazard by reordering code?
 
-???? What is an NOP?
+Yes. If we move the addi and subi instructions to before the beqz we can reduce the number of stalls from this structural hazard.
+
 #### 4.22.3. Must this structural hazard be handled in hardware? We have seen that data hazards can be eliminated by adding NOPs to the code. Can you do the same with this structural hazard? If so, explain how. If not, explain why not.
+
+Yes. We can add a stall to delay the add and subi commands by one clock cycle after we are finished using memory in the ld and st commands. This stall would free up the memory block which would allow add and subi to access the data in the registers.
 
 #### 4.22.4. Approximately how many stalls would you expect this structural hazard to generate in a typical program? (Use the instruction mix from Exercise 4.8)
 
+Assuming we are running 1000 iterations of these instructions, we get:
+
+520 R-type/ I-type instructions, <br>
+250 ld instructions, <br>
+110 sd instructions, and <br>
+120 beq instructions.
+
+Due to this structural hazard, we would stall as a result of the sd and ld instructions. Therefore, we would stall 250 + 110 = 360 times, since we stall once for each of the sd and ld commands given the instruction mix from 4.8. Therefore, for a total number of 1000 instructions, we would have (1000/5) + 360 = 560 clock cycles which is a slowdown of 560/200 or 2.8 times due to this structural hazard. This is because since we have 5 steps we are pipelining (running in parallel) the normal number of clock cycles would be 1000/5. However, we must add a clock cycle every time we do ld or st due to the stall becasue of the memory being shared, which adds 250+110 clock cycles to our total benefits due to the pipeline.
+
 #### 4.25.1. Show a pipeline execution diagram for the first two iterations of this loop.
 
-#### 4.25.2. Mark pipeline stages that do not perform useful work. How often while the pipeline is full do we have a cycle in which all five pipeline stages are doing useful work? (Begin with the cyucle during which the subi is in the IF stage. End with the cycle during which the bnez is in the IF stage.)
+![4.25.1](4.25.1.jpg)
+
+#### 4.25.2. Mark pipeline stages that do not perform useful work. How often while the pipeline is full do we have a cycle in which all five pipeline stages are doing useful work? (Begin with the cycle during which the subi is in the IF stage. End with the cycle during which the bnez is in the IF stage.)
+
+The bnez command does not do any useful work most of the time because it is dependent on the updated registers from subi to loop back to the correct register. Therefore, it must wait a full extra clock cycle for those registers to be completed before bnez can do its check and loop back. The only time the pipeline is full is when the condition for bnez is not fulfilled, because it does not need to have the register to loop back to, it just ends the loop.
