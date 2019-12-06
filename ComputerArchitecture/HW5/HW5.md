@@ -121,6 +121,7 @@ The contents of the cache after each reference has been handled?
 #### 5.18.1
 
 
+
 #### 5.18.2
 
 
@@ -135,6 +136,4 @@ The contents of the cache after each reference has been handled?
 
 #### 5.22
 
-
-Cache	5.1.1, 5.1.2, 5.1.3, 5.3.1, 5.5.1, 5.5.2, 5.5.3, 5.11.1, 5.11.2, 5.11.3, and 5.11.4
-Virtual Memory	5.18.1, 5.18.2, 5.18.3, 5.18.4, 5.18.5, and 5.22
+### One question that I did not know how to answer and why.
