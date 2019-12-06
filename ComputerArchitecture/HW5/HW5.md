@@ -120,20 +120,45 @@ The contents of the cache after each reference has been handled?
 
 #### 5.18.1
 
-
+For a single page table the number of entries would be 2^36, or about 64 billion entries. This means that the physical address space is 2^40 bytes, which allows for memory up to 1TiB. (pg 425)
 
 #### 5.18.2
 
+4 levels of page tables will be needed if the segment tables are allowed to be of unlimited size. Each step of the translation uses 9 bits of the virtual address to find the next level table, until the upper 36 bits of the virtual address are mapped to the physical address of the desired 4KiB page. Each RISC-V table entry is 8 bytes so the 512 entries of a table fill a single 4 KiB page. This means that 2^36 memory references are required for address translation if missing in the TLB.
 
 #### 5.18.3
 
+Because 36 bits of the virtual address are mapped to the physical address of the 4KiB page, 4 bytes, or 32 bits is not enough for all page table entries.
 
 #### 5.18.4
 
+4 page levels are required to go from a 48 bit virtual address to a 40-bit physical address of a 4KiB page. So 4 levels are required.
 
 #### 5.18.5
 
+Ryan I do not know how to answer this because all I could find about it in the book is a short paragraph summarizing what it does on page 429, number 3. So I am going to explain what I need to know in order to solve this problem.
+
+First of all, I would need to know how hash table's are implemented, or even what a hash table is (I am assuming it is a table that stores hashes that are used to lookup things (addresses)).
+
+I would also need to know how to compute the numbers for servicing a TLB miss under this implementation. From what I know about TLB misses, they are caused when either:
+
+1. the page is present in memory, and we need only create the missing TLB entry.
+2. the page is not present in memory and we need to transfer control to the operating system to deal with a page fault.
+
+Knowing this, the best case is case number 1 where all we need to do is create the missing TLB entry, which will only stall the processor a little bit as it is still a memory operation. The worst case is number 2 where the page is not present in memory and control needs to be transferred to the OS. This means that the processor operation needs to be paused (which is apparently an easy thing to do in RISC-V) which could cause a much, much larger stall with the page fault as it might have to access the disk which is many times slower than memory.
+
+I could glean what all this means from the book, but I would not know where to start to compute the exact number of the worst and best case scenario.
+
+Lastly, because I do not know how an inverted page table exactly optimizes space and time, I can't glean how many PTEs are needed to store the page table. I would need to know how they are constructed to solve this problem.
 
 #### 5.22
 
-### One question that I did not know how to answer and why.
+Virtual memory and virtual machines are very different from one another and have very different goals. Virtual memory's goal is to let programs have access to more memory than is really in the system via using the disk and other tricks to artificially increase the amount of memory that is shown to the system (or to programmers). Virtual machine's goal is to completely simulate entire operating systems and their functions multiple times on one machine. In order to achieve these goals they do share some common ideas. Both have to have completely private access to whatever area in memory or other computer resources (processor, disk) the virtual memory or virtual machines have access to. This promotes greater security, as virtual memory ensures separation and organization of physical memory being used so there is no data overlap which would cause issues. Virtual Machines similarly completely separate the different OSes it is running so they do not share data between each other which would lead to security risks. They both are also highly customizable, as you can set how much virtual memory you want and you can set how much resources are given to each virtual machine. This leads to both being highly manageable. However, this comes at a cost of slowness. Both encounter a slowdown when being used compared to their non virtual counterpart (DRAM/processor cache and a non virtual machine OS). Both have a cost, where virtual memory has a much higher penalty for page faults due to the processor being stalled for much longer than normal, due to the slowness of disks; and virtual machines have to emulate complete operating systems via the VMM and determine which part of the hardware the OS will run on. Both also should improve however in the future. We can come up with new ideas to reduce page faults for virtual memory, making it faster; and we can improve the slowness and errors of the x86 ISA when used with a virtual machine.
+
+This being said, virtual memory allows efficient and safe sharing of memory among several programs while also removing the programming burdens of a small, limited amount of main memory. Virtual Machines provide an abstraction that can run the complete software stack, including running old operating systems, that companies like Amazon can easily sell computer resources via AWS. It also allows for easy simultaneous testing of their programs on many OS which can provide developers testing environments to ensure that their programs run smoothly on many different kinds of OSes.
+
+While both Virtual Memory and Virtual Machines are very different in application, both have their similarities and are both crucial to the modern computing world.
+
+### Problem that I do not know how to answer
+
+Other than 8.18.5 (and probably the other virtual memory requiring computation), I would not know how to do 5.20 because I am do not fully understand how LRU and MRU replacement policies work, which are fundamental in answering these questions. 
