@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 
 mode = int(sys.argv[1])
 if mode > 4 or mode < 1:
@@ -28,6 +29,7 @@ def readR(a):
 def writeM(a, v):
     mem[a] = v
 
+
 def readM(a):
     if a in mem:
         return mem[a]
@@ -37,6 +39,9 @@ def readI(a):
     x = readM(a)
     y = readM(a+1)
     return "".join(map(chr, [x & 0xff, (x >> 8) & 0xff, y & 0xff, (y >> 8) & 0xff]))
+
+
+
 
 with open(filename) as f:
     for l in f.readlines():
@@ -63,9 +68,31 @@ with open(filename) as f:
                     writeM(cur, v)
                     cur = cur + 1
 
+global last_write
+last_write = (None, None)
+def read4(a, inst):
+    global last_write
+    # Done every time we have a read
+    if mode == 4:
+
+        if a == last_write[0]: 
+            # we have a hazard
+            print("Address: " + a + " write: " + last_write[1] + 
+            " read: " + inst)
+
+def write4(a, inst):
+    global last_write
+    # Done every time we have a write
+    if mode == 4:
+        last_write = (a, inst)
+
+
+ic = 0
+time_s = time.time()
 while True:
     pc = readR('P')
     inst = readI(pc)
+    ic += 1
 
     if inst[0] == 'B':
         S = inst[1]
@@ -78,7 +105,8 @@ while True:
         else:
             writeR('P', pc + 2)
         if mode == 1:
-            print("inst:" + inst + ', P:' + readR('P'))
+            print("inst:" + inst + ', P:' + str(readR('P')))
+        read4(S, inst)
     elif inst[0] == 'b':
         S = inst[1]
         if readR(S) != 0:
@@ -91,6 +119,7 @@ while True:
             writeR('P', pc + 2)
         if mode == 1:
             print("inst:" + inst + ', P:' + str(readR('P')))
+        read4(S, inst)
     elif inst[0] == 'E':
         S = inst[1]
         if readR(S) == 0:
@@ -103,6 +132,7 @@ while True:
             writeR('P', pc + 2)
         if mode == 1:
             print("inst:" + inst + ', P:' + str(readR('P')))
+        read4(S, inst)
     elif inst[0] == 'e':
         S = inst[1]
         if readR(S) == 0:
@@ -114,7 +144,8 @@ while True:
         else:
             writeR('P', pc + 2)
         if mode == 1:
-            print("inst:" + inst + ', P:' + str(readR('P')))    
+            print("inst:" + inst + ', P:' + str(readR('P'))) 
+        read4(S, inst)   
     elif inst[0] == 'g':
         S = inst[1]
         if readR(S) > 0:
@@ -127,20 +158,23 @@ while True:
             writeR('P', pc + 2)
         if mode == 1:
             print("inst:" + inst + ', P:' + str(readR('P')))
+        read4(S, inst)
     elif inst[0] == 'I':
         imm = int("0x"+readI(pc+2), 0)
         writeR(inst[1], imm)
         writeR('P', pc+4)
         if mode == 1:
-            print("inst:" + inst + ', ' + inst[1] + ':' + str(readR(inst[1])) +
-            ', P:' + str(readR('P')))
+            print("inst:" + inst + readI(pc+2) + ', ' + inst[1] + 
+            ':' + str(readR(inst[1])) + ', P:' + str(readR('P')))
+        write4(inst[1], inst)
     elif inst[0] == 'J':
         imm = int("0x"+readI(pc+2), 0)
         writeR(inst[1], pc + 4)
         writeR('P', imm)
         if mode == 1:
-            print("inst:" + inst + ', ' + inst[1] + ':' + str(readR(inst[1])) +
-            ', P:' + str(readR('P')))
+            print("inst:" + inst + readI(pc+2) + ', ' + inst[1] +
+            ':' + str(readR(inst[1])) + ', P:' + str(readR('P')))
+        write4(inst[1], inst)
     elif inst[0] == 'L':
         S1 = inst[1]
         S2 = inst[2]
@@ -148,6 +182,12 @@ while True:
         v = readM(a)
         writeR(S2,v)
         writeR('P', pc+2)
+        if mode == 1:
+            print("inst:" + inst + ', ' + S2 + ':' + str(readR(S2)) +
+            ', P:' + str(readR('P')))
+        read4(S1, inst)
+        read4(a, inst)
+        write4(S2, inst)
     elif inst[0] == 'l':
         S = inst[1]
         if readR(S) < 0:
@@ -160,13 +200,14 @@ while True:
             writeR('P', pc + 2)
         if mode == 1:
             print("inst:" + inst + ', P:' + str(readR('P')))
+        read4(S, inst)
     elif inst[0] == 'R':
-        r = inst[1]
-        d = inst[2]
-        a = readR(r)
-        v = readM(a)
-        writeR(d,v)
-        writeR('P', pc+2)
+        s = inst[1]
+        v = readR(s)
+        writeR('P', v)
+        if mode == 1:
+            print("inst:" + inst + ', P:' + str(readR('P')))
+        read4(s, inst)
     elif inst[0] == 'S':
         S = inst[1]
         W = inst[2]
@@ -174,6 +215,12 @@ while True:
         a = readR(W)
         writeM(a,v)
         writeR('P', pc+2)
+        if mode == 1:
+            print("inst:" + inst + ', P:' + str(readR('P')) +
+            "Mem " + str(a) + ':' + str(v)) 
+        read4(S, inst)
+        read4(W, inst)
+        write4(a, inst)
     elif inst[0] == '+':
         s1 = inst[1]
         s2 = inst[2]
@@ -183,6 +230,12 @@ while True:
         v  = v1 + v2
         writeR(d, v)
         writeR('P', pc+2)
+        if mode == 1:
+            print("inst:" + inst + ', P:' + str(readR('P')) + 
+            ', ' + d + str(readR(d)))
+        read4(s1, inst)
+        read4(s2, inst)
+        write4(d, inst)
     elif inst[0] == '-':
         s1 = inst[1]
         s2 = inst[2]
@@ -192,6 +245,12 @@ while True:
         v  = v1 - v2
         writeR(d, v)
         writeR('P', pc+2)
+        if mode == 1:
+            print("inst:" + inst + ', P:' + str(readR('P')) + 
+            ', ' + d + str(readR(d)))
+        read4(s1, inst)
+        read4(s2, inst)
+        write4(d, inst)
     elif inst[0] == '*':
         s1 = inst[1]
         s2 = inst[2]
@@ -201,6 +260,12 @@ while True:
         v  = v1 * v2
         writeR(d, v)
         writeR('P', pc+2)
+        if mode == 1:
+            print("inst:" + inst + ', P:' + str(readR('P')) + 
+            ', ' + d + str(readR(d)))
+        read4(s1, inst)
+        read4(s2, inst)
+        write4(d, inst)
     elif inst[0] == '/':
         s1 = inst[1]
         s2 = inst[2]
@@ -210,6 +275,12 @@ while True:
         v  = v1 / v2
         writeR(d, v)
         writeR('P', pc+2)
+        if mode == 1:
+            print("inst:" + inst + ', P:' + str(readR('P')) + 
+            ', ' + d + str(readR(d)))
+        read4(s1, inst)
+        read4(s2, inst)
+        write4(d, inst)
     elif inst[0] == '%':
         s1 = inst[1]
         s2 = inst[2]
@@ -219,6 +290,12 @@ while True:
         v  = v1 % v2
         writeR(d, v)
         writeR('P', pc+2)
+        if mode == 1:
+            print("inst:" + inst + ', P:' + str(readR('P')) + 
+            ', ' + d + str(readR(d)))
+        read4(s1, inst)
+        read4(s2, inst)
+        write4(d, inst)
     elif inst[0] == '<':
         S = inst[1]
         if readR(S) < 0:
@@ -231,6 +308,7 @@ while True:
             writeR('P', pc + 2)
         if mode == 1:
             print("inst:" + inst + ', P:' + str(readR('P')))
+        read4(S, inst)
     elif inst[0] == '>':
         S = inst[1]
         if readR(S) > 0:
@@ -243,6 +321,7 @@ while True:
             writeR('P', pc + 2)
         if mode == 1:
             print("inst:" + inst + ', P:' + str(readR('P')))
+        read4(S, inst)
     elif inst == "H   ":
         break
     elif inst[0] == '!':
@@ -272,4 +351,33 @@ while True:
         writeR('P', pc+2) # Raise an error, Illegal instruction
     # print(inst)
 
-print(regs)
+if mode == 2:
+    with open(filename) as f:
+        for l in f.readlines():
+            if l.startswith("data: "):
+                print()
+                a = l[6:].split(" ")[0]
+                try:
+                    num_display = int(l[6:].split(" ")[1])
+                    cur = int(a, 0)
+                    print("Data: ", end='')
+                    for i in range(num_display):
+                        v = readM(cur)
+                        cur = cur + 1
+                        print(v,end='')
+                except:
+                    cur = int(a, 0)
+                    print("Data: ", end='')
+                    while True:
+                        v = readM(cur)
+                        cur = cur + 1
+                        if v == 0:                    
+                            break
+                        print(v,end='')
+                            
+
+
+print()
+print("Total real clock time running the algorithm: ", time.time() - time_s)
+print("Number of instructions: ", ic)
+
